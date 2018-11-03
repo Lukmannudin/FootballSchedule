@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="dateEvent" type="id"/>
+    <item name="tHome" type="id"/>
+    <item name="separatorTeam" type="id"/>
+    <item name="tAway" type="id"/>
+    <item name="tHomeScoring" type="id"/>
+    <item name="tAwayScoring" type="id"/>
+</resources>
