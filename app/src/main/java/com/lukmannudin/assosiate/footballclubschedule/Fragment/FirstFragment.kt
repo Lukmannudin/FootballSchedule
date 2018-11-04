@@ -83,14 +83,34 @@ class FirstFragment : Fragment(), ScheduleContract {
 //            Log.i("CEKTEAM", schedules[0].strHomeTeam)
 //            startActivity<TeamListActivity>(MainActivity.teamSchedule to schedules[0].dateEvent)
 //        }
-        adapter = ScheduleAdapter(schedules,{schedules : Schedule -> partItemClicked(schedules)})
+        adapter = ScheduleAdapter(schedules, { schedules: Schedule -> partItemClicked(schedules) })
 //        view.club_list.adapter = ScheduleAdapter(schedules, {schedules : Schedule -> partItemClicked(schedules)})
         view.club_list.adapter = adapter
 
     }
-    private fun partItemClicked(Schedules: Schedule){
-        startActivity<TeamListActivity>(MainActivity.teamSchedule to "${Schedules.dateEvent}")
+
+    private fun partItemClicked(Schedules: Schedule) {
+        startActivity<TeamListActivity>(
+            MainActivity.teamSchedule to "${Schedules.dateEvent}",
+            MainActivity.teamHomeName to "${Schedules.idHomeTeam}",
+            MainActivity.teamAwayName to "${Schedules.idAwayTeam}",
+            MainActivity.teamHomeGoal to "${Schedules.intHomeScore}",
+            MainActivity.teamHomeGoalDetail to "${Schedules.strHomeGoalDetails}",
+            MainActivity.teamHomeGoalKeeper to "${Schedules.strHomeLineupGoalkeeper}",
+            MainActivity.teamHomeDefense to "${Schedules.strHomeLineupDefense}",
+            MainActivity.teamHomeMidfield to "${Schedules.strHomeLineupMidfield}",
+            MainActivity.teamHomeForward to "${Schedules.strHomeLineupForward}",
+            MainActivity.teamHomeSubstitutes to "${Schedules.strHomeLineupSubstitutes}",
+            MainActivity.teamAwayGoal to "${Schedules.intAwayScore}",
+            MainActivity.teamAwayGoalDetail to "${Schedules.strAwayGoalDetails}",
+            MainActivity.teamAwayGoalKeeper to "${Schedules.strAwayLineupGoalkeeper}",
+            MainActivity.teamAwayDefense to "${Schedules.strAwayLineupDefense}",
+            MainActivity.teamAwayMidfield to "${Schedules.strAwayLineupMidfield}",
+            MainActivity.teamAwayForward to "${Schedules.strAwayLineupForward}",
+            MainActivity.teamAwaySubstitutes to "${Schedules.strAwayLineupSubstitutes}"
+            )
     }
+
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.onFragmentInteraction(uri)
@@ -145,6 +165,7 @@ class FirstFragment : Fragment(), ScheduleContract {
                 }
             }
     }
+
     override fun showLoading() {
         view?.indeterminateBar?.visible()
         view?.swiperefresh?.isRefreshing = false

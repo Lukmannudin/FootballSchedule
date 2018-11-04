@@ -13,7 +13,7 @@ class TeamDetailPresenter(
     private val apiRepository: ApiRepository,
     private val gson: Gson
 ) {
-    fun getTeamDetailList(idTeam: String?) {
+    fun getHomeTeamDetailList(idTeam: String?) {
 
 //        view.showLoading()
         doAsync {
@@ -25,8 +25,24 @@ class TeamDetailPresenter(
 
             uiThread {
                 //                view.hideLoading()
-                view.showTeamDetailList(data.teamDetail)
+                view.showHomeTeamDetailList(data.teamDetail)
+            }
+        }
+    }
 
+        fun getAwayTeamDetailList(idTeam: String?) {
+
+//        view.showLoading()
+        doAsync {
+            val data = gson.fromJson(
+                apiRepository
+                    .doRequest(APITeamDetails.getTeamDetail(idTeam)),
+                TeamDetailResponse::class.java
+            )
+
+            uiThread {
+                //                view.hideLoading()
+                view.showAwayTeamDetailList(data.teamDetail)
             }
         }
     }

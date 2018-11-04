@@ -20,7 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".TeamListActivity">
+        <activity
+                android:name=".TeamListActivity"
+                android:parentActivityName=".MainActivity"
+        >
         </activity>
     </application>
 

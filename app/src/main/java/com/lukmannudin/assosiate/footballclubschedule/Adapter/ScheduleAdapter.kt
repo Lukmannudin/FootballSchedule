@@ -1,5 +1,6 @@
 package com.lukmannudin.assosiate.footballclubschedule.Adapter
 
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.View
@@ -42,9 +43,9 @@ class ScheduleUI : AnkoComponent<ViewGroup> {
 
                 textView {
                     id = R.id.dateEvent
-                    textSize = fontSize
+                    textSize = 20f
                     gravity = Gravity.CENTER
-                    text = "2016-10-12"
+                    textColor = Color.LTGRAY
                 }
 
                 relativeLayout{
@@ -55,7 +56,8 @@ class ScheduleUI : AnkoComponent<ViewGroup> {
                         textSize = fontSize
                         text = "Jerman"
                         gravity = Gravity.LEFT
-                        width = dip(100)
+                        width = dip(150)
+                        rightPadding = dip(20)
                     }
 
                     textView {
@@ -94,8 +96,9 @@ class ScheduleUI : AnkoComponent<ViewGroup> {
                         id = R.id.tAway
                         textSize = fontSize
                         text = "Spanyol"
-                        width = dip(100)
+                        width = dip(150)
                         gravity  = Gravity.RIGHT
+                        leftPadding = dip(20)
                     }.lparams {
                         rightOf(tAwayScoring)
                     }
