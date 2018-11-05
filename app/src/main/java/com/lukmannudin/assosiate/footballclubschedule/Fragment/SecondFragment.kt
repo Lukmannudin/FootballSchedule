@@ -3,10 +3,21 @@ package com.lukmannudin.assosiate.footballclubschedule.Fragment
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.google.gson.Gson
+import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
+import com.lukmannudin.assosiate.footballclubschedule.Adapter.ScheduleAdapter
+import com.lukmannudin.assosiate.footballclubschedule.Contract.ScheduleContract
+import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
+import com.lukmannudin.assosiate.footballclubschedule.Presenter.ScheduleNextPresenter
 import com.lukmannudin.assosiate.footballclubschedule.R
+import com.lukmannudin.assosiate.footballclubschedule.invisible
+import com.lukmannudin.assosiate.footballclubschedule.visible
+import kotlinx.android.synthetic.main.fragment_second.view.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -23,11 +34,27 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  *
  */
-class SecondFragment : Fragment() {
+class SecondFragment : Fragment(), ScheduleContract {
+    override fun showLoading() {
+        view?.indeterminateBar2?.visible()
+        view?.swiperefresh2?.isRefreshing = false    }
+
+    override fun hideLoading() {
+        view?.indeterminateBar2?.invisible()
+    }
+
+    override fun showTeamList(data: List<Schedule>) {
+        schedules.clear()
+        schedules.addAll(data)
+        adapter.notifyDataSetChanged()
+    }
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
+    private lateinit var adapter: ScheduleAdapter
+    private var schedules: MutableList<Schedule> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +69,36 @@ class SecondFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_second, container, false)
+        val view = inflater.inflate(R.layout.fragment_second, container, false)
+        lateinit var presenter: ScheduleNextPresenter
+        val request = ApiRepository()
+        val gson = Gson()
+
+        presenter = ScheduleNextPresenter(this, request, gson)
+        presenter.getScheduleList("")
+        view.swiperefresh2.isRefreshing = false
+        view.swiperefresh2.setOnRefreshListener {
+            presenter.getScheduleList("")
+        }
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.club_list2.layoutManager = LinearLayoutManager(view.context)
+//        adapter = ScheduleAdapter(schedules) {
+//            Log.i("CEKTEAM", schedules[0].strHomeTeam)
+//            startActivity<TeamListActivity>(MainActivity.teamSchedule to schedules[0].dateEvent)
+//        }
+        adapter = ScheduleAdapter(schedules, { schedules: Schedule -> partItemClicked(schedules) })
+//        view.club_list.adapter = ScheduleAdapter(schedules, {schedules : Schedule -> partItemClicked(schedules)})
+        view.club_list2.adapter = adapter
+
+    }
+
+    private fun partItemClicked(Schedules: Schedule) {
+     Toast.makeText(activity,"${Schedules.strHomeTeam} VS ${Schedules.strAwayTeam}",Toast.LENGTH_SHORT).show()
     }
 
     // TODO: Rename method, update argument and hook method into UI event

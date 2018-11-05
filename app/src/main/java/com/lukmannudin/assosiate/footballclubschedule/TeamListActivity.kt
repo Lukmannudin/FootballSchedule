@@ -60,6 +60,7 @@ class TeamListActivity : AppCompatActivity(), TeamDetailContract {
         teamDetails.clear()
         teamDetails.addAll(data)
         data[0].getStrTeamBadge().let { Picasso.get().load(it).into(teamBadgeHome) }
+        teamHomeName.text = data[0].getStrTeam()
         teamHomeGoals.text = homeGoal
         teamHomeGoalDetail.text = homeGoalDetail.replace(";","\n")
         teamHomeGoalkeeper.text = homeGoalKeeper.replace(";","\n")
@@ -81,6 +82,7 @@ class TeamListActivity : AppCompatActivity(), TeamDetailContract {
         teamDetails.clear()
         teamDetails.addAll(data)
         data[0].getStrTeamBadge().let { Picasso.get().load(it).into(teamBadgeAway) }
+        teamAwayName.text = data[0].getStrTeam()
         teamAwayGoals.text = awayGoal
         teamAwayGoalDetail.text = homeAwayDetail.replace(";","\n")
         teamAwayGoalkeeper.text = awayGoalKeeper.replace(";","\n")

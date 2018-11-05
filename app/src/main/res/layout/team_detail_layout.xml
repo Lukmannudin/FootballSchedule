@@ -29,6 +29,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="100dp"
+                    android:layout_gravity="center"
             />
             <TextView
                     android:layout_width="0dp"
@@ -42,6 +43,40 @@
                     android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
+            />
+
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+        >
+            <TextView
+                    android:id="@+id/teamHomeName"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textColor="@color/midnightBlue"
+            />
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+            />
+
+            <TextView
+                    android:id="@+id/teamAwayName"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textColor="@color/midnightBlue"
             />
 
         </LinearLayout>
@@ -49,7 +84,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="7dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="60dp"
                 android:layout_marginBottom="10dp"
                 android:background="@android:color/darker_gray"/>
         <LinearLayout

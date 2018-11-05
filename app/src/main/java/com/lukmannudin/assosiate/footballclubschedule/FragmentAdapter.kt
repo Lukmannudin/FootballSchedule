@@ -9,7 +9,7 @@ import com.lukmannudin.assosiate.footballclubschedule.Fragment.SecondFragment
 class FragmentAdapter(fm: FragmentManager): FragmentPagerAdapter(fm){
 
     // sebuah list yang menampung objek Fragment
-    private val pages = listOf(
+    private val pages: List<Fragment> = listOf(
         FirstFragment(),
         SecondFragment()
 //        ThirdFragment()
