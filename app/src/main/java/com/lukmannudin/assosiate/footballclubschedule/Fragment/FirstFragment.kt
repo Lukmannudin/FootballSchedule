@@ -8,12 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.gson.Gson
-import com.lukmannudin.assosiate.footballclubschedule.*
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
 import com.lukmannudin.assosiate.footballclubschedule.Adapter.ScheduleAdapter
 import com.lukmannudin.assosiate.footballclubschedule.Contract.ScheduleContract
 import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.SchedulePresenter
+import com.lukmannudin.assosiate.footballclubschedule.R
+import com.lukmannudin.assosiate.footballclubschedule.TeamListActivity
+import com.lukmannudin.assosiate.footballclubschedule.invisible
+import com.lukmannudin.assosiate.footballclubschedule.visible
 import kotlinx.android.synthetic.main.fragment_first.view.*
 import org.jetbrains.anko.support.v4.startActivity
 
@@ -90,24 +93,26 @@ class FirstFragment : Fragment(), ScheduleContract {
     }
 
     private fun partItemClicked(Schedules: Schedule) {
+//        Log.i("Babi", Schedules.strAwayTeam?: "NULL")
         startActivity<TeamListActivity>(
-            MainActivity.teamSchedule to "${Schedules.dateEvent}",
-            MainActivity.teamHomeName to "${Schedules.idHomeTeam}",
-            MainActivity.teamAwayName to "${Schedules.idAwayTeam}",
-            MainActivity.teamHomeGoal to "${Schedules.intHomeScore}",
-            MainActivity.teamHomeGoalDetail to "${Schedules.strHomeGoalDetails}",
-            MainActivity.teamHomeGoalKeeper to "${Schedules.strHomeLineupGoalkeeper}",
-            MainActivity.teamHomeDefense to "${Schedules.strHomeLineupDefense}",
-            MainActivity.teamHomeMidfield to "${Schedules.strHomeLineupMidfield}",
-            MainActivity.teamHomeForward to "${Schedules.strHomeLineupForward}",
-            MainActivity.teamHomeSubstitutes to "${Schedules.strHomeLineupSubstitutes}",
-            MainActivity.teamAwayGoal to "${Schedules.intAwayScore}",
-            MainActivity.teamAwayGoalDetail to "${Schedules.strAwayGoalDetails}",
-            MainActivity.teamAwayGoalKeeper to "${Schedules.strAwayLineupGoalkeeper}",
-            MainActivity.teamAwayDefense to "${Schedules.strAwayLineupDefense}",
-            MainActivity.teamAwayMidfield to "${Schedules.strAwayLineupMidfield}",
-            MainActivity.teamAwayForward to "${Schedules.strAwayLineupForward}",
-            MainActivity.teamAwaySubstitutes to "${Schedules.strAwayLineupSubstitutes}"
+            "parcel" to Schedules
+//            teamSchedule to "${Schedules.dateEvent}",
+//            teamHomeName to "${Schedules.idHomeTeam}",
+//            teamAwayName to "${Schedules.idAwayTeam}",
+//            teamHomeGoal to "${Schedules.intHomeScore}",
+//            teamHomeGoalDetail to "${Schedules.strHomeGoalDetails}",
+//            teamHomeGoalKeeper to "${Schedules.strHomeLineupGoalkeeper}",
+//            teamHomeDefense to "${Schedules.strHomeLineupDefense}",
+//            teamHomeMidfield to "${Schedules.strHomeLineupMidfield}",
+//            teamHomeForward to "${Schedules.strHomeLineupForward}",
+//            teamHomeSubstitutes to "${Schedules.strHomeLineupSubstitutes}",
+//            teamAwayGoal to "${Schedules.intAwayScore}",
+//            teamAwayGoalDetail to "${Schedules.strAwayGoalDetails}",
+//            teamAwayGoalKeeper to "${Schedules.strAwayLineupGoalkeeper}",
+//            teamAwayDefense to "${Schedules.strAwayLineupDefense}",
+//            teamAwayMidfield to "${Schedules.strAwayLineupMidfield}",
+//            teamAwayForward to "${Schedules.strAwayLineupForward}",
+//            teamAwaySubstitutes to "${Schedules.strAwayLineupSubstitutes}"
             )
     }
 

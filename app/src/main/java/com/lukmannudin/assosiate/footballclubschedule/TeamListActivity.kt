@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import com.google.gson.Gson
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
 import com.lukmannudin.assosiate.footballclubschedule.Contract.TeamDetailContract
+import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
 import com.lukmannudin.assosiate.footballclubschedule.Model.TeamDetail
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.TeamDetailPresenter
 import com.squareup.picasso.Picasso
@@ -13,31 +14,25 @@ import kotlinx.android.synthetic.main.team_detail_layout.*
 class TeamListActivity : AppCompatActivity(), TeamDetailContract {
     private var teamDetails: MutableList<TeamDetail> = mutableListOf()
     lateinit var presenter: TeamDetailPresenter
-    private lateinit var strEvent: String
-    private lateinit var strTeamHome: String
-    private lateinit var strTeamAway: String
+    private lateinit var IntentData: Schedule
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_test)
         setContentView(R.layout.team_detail_layout)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
-        strEvent = intent.getStringExtra(MainActivity.teamSchedule)
 
-        dateEventSchedule.text = strEvent
-        strTeamHome = intent.getStringExtra(MainActivity.teamHomeName)
-        strTeamAway = intent.getStringExtra(MainActivity.teamAwayName)
+        IntentData = intent.getParcelableExtra<Schedule>("parcel")
+        dateEventSchedule.text = IntentData.dateEvent
 
 
         val request = ApiRepository()
         val gson = Gson()
-
         presenter = TeamDetailPresenter(this, request, gson)
-        presenter.getHomeTeamDetailList(strTeamHome)
-        presenter.getAwayTeamDetailList(strTeamAway)
+        presenter.getHomeTeamDetailList(IntentData.idHomeTeam)
+        presenter.getAwayTeamDetailList(IntentData.idAwayTeam)
 
-
-//        Log.i("CEK TEAM",teamDetails[1].getStrTeam())
     }
 
     override fun showLoading() {
@@ -49,46 +44,32 @@ class TeamListActivity : AppCompatActivity(), TeamDetailContract {
     }
 
     override fun showHomeTeamDetailList(data: List<TeamDetail>) {
-        val homeGoal = intent.getStringExtra(MainActivity.teamHomeGoal)
-        val homeGoalDetail = intent.getStringExtra(MainActivity.teamHomeGoalDetail)
-        val homeGoalKeeper = intent.getStringExtra(MainActivity.teamHomeGoalKeeper)
-        val homeDefense = intent.getStringExtra(MainActivity.teamHomeDefense)
-        val homeMidfield = intent.getStringExtra(MainActivity.teamHomeMidfield)
-        val homeForward = intent.getStringExtra(MainActivity.teamHomeForward)
-        val homeSubstitutes = intent.getStringExtra(MainActivity.teamHomeSubstitutes)
+
 
         teamDetails.clear()
         teamDetails.addAll(data)
         data[0].getStrTeamBadge().let { Picasso.get().load(it).into(teamBadgeHome) }
         teamHomeName.text = data[0].getStrTeam()
-        teamHomeGoals.text = homeGoal
-        teamHomeGoalDetail.text = homeGoalDetail.replace(";","\n")
-        teamHomeGoalkeeper.text = homeGoalKeeper.replace(";","\n")
-        teamHomeDefense.text = homeDefense.replace(";","\n")
-        teamHomeMidfield.text = homeMidfield.replace(";","\n")
-        teamHomeForward.text = homeForward.replace(";","\n")
-        teamHomeSubstitute.text = homeSubstitutes.replace(";","\n")
+        teamHomeGoals.text = IntentData.intHomeScore
+        teamHomeGoalDetail.text = IntentData.strHomeGoalDetails.toString().replace(";","\n")
+        teamHomeGoalkeeper.text = IntentData.strHomeLineupGoalkeeper.toString().replace(";","\n")
+        teamHomeDefense.text = IntentData.strHomeLineupDefense.toString().replace(";","\n")
+        teamHomeMidfield.text = IntentData.strHomeLineupMidfield.toString().replace(";","\n")
+        teamHomeForward.text = IntentData.strHomeLineupForward.toString().replace(";","\n")
+        teamHomeSubstitute.text = IntentData.strHomeLineupSubstitutes.toString().replace(";","\n")
     }
 
     override fun showAwayTeamDetailList(data: List<TeamDetail>) {
-        val awayGoal = intent.getStringExtra(MainActivity.teamAwayGoal)
-        val homeAwayDetail = intent.getStringExtra(MainActivity.teamAwayGoalDetail)
-        val awayGoalKeeper = intent.getStringExtra(MainActivity.teamAwayGoalKeeper)
-        val awayDefense = intent.getStringExtra(MainActivity.teamAwayDefense)
-        val awayMidfield = intent.getStringExtra(MainActivity.teamAwayMidfield)
-        val awayForward = intent.getStringExtra(MainActivity.teamAwayForward)
-        val awaySubstitutes = intent.getStringExtra(MainActivity.teamAwaySubstitutes)
-
         teamDetails.clear()
         teamDetails.addAll(data)
         data[0].getStrTeamBadge().let { Picasso.get().load(it).into(teamBadgeAway) }
         teamAwayName.text = data[0].getStrTeam()
-        teamAwayGoals.text = awayGoal
-        teamAwayGoalDetail.text = homeAwayDetail.replace(";","\n")
-        teamAwayGoalkeeper.text = awayGoalKeeper.replace(";","\n")
-        teamAwayDefense.text = awayDefense.replace(";","\n")
-        teamAwayMidfield.text = awayMidfield.replace(";","\n")
-        teamAwayForward.text = awayForward.replace(";","\n")
-        teamAwaySubstitute.text = awaySubstitutes.replace(";","\n")
+        teamAwayGoals.text = IntentData.intAwayScore
+        teamAwayGoalDetail.text = IntentData.strAwayGoalDetails.toString().replace(";","\n")
+        teamAwayGoalkeeper.text = IntentData.strAwayLineupGoalkeeper.toString().replace(";","\n")
+        teamAwayDefense.text = IntentData.strAwayLineupDefense.toString().replace(";","\n")
+        teamAwayMidfield.text = IntentData.strAwayLineupMidfield.toString().replace(";","\n")
+        teamAwayForward.text = IntentData.strAwayLineupForward.toString().replace(";","\n")
+        teamAwaySubstitute.text = IntentData.strAwayLineupSubstitutes.toString().replace(";","\n")
     }
 }

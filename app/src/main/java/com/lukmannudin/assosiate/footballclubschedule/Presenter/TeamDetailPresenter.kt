@@ -1,5 +1,6 @@
 package com.lukmannudin.assosiate.footballclubschedule.Presenter
 
+import android.util.Log
 import com.google.gson.Gson
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.APITeamDetails
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
@@ -23,14 +24,17 @@ class TeamDetailPresenter(
                 TeamDetailResponse::class.java
             )
 
+            Log.i("CEKDATA",data.teamDetail[0].getStrTeam())
+
             uiThread {
                 //                view.hideLoading()
+
                 view.showHomeTeamDetailList(data.teamDetail)
             }
         }
     }
 
-        fun getAwayTeamDetailList(idTeam: String?) {
+    fun getAwayTeamDetailList(idTeam: String?) {
 
 //        view.showLoading()
         doAsync {
