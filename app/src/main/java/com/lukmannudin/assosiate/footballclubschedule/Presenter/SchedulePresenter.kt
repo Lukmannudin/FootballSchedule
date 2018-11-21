@@ -31,4 +31,22 @@ class SchedulePresenter(private val view: ScheduleContract,
             }
         }
     }
+
+    fun getScheduleDetails(idEvent: String?){
+
+        view.showLoading()
+        doAsync {
+            val data = gson.fromJson(apiRepository
+                .doRequest(APIScheduleTeam.getScheduleDetails(idEvent)),
+                ScheduleResponse::class.java
+            )
+
+
+            uiThread {
+                view.hideLoading()
+                view.showTeamList(data.schedules)
+
+            }
+        }
+    }
 }

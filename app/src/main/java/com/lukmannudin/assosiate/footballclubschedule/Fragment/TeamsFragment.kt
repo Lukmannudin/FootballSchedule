@@ -35,7 +35,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  *
  */
-class FirstFragment : Fragment(), ScheduleContract {
+class TeamsFragment : Fragment(), ScheduleContract {
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -82,37 +82,13 @@ class FirstFragment : Fragment(), ScheduleContract {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.club_list.layoutManager = LinearLayoutManager(view.context)
-//        adapter = ScheduleAdapter(schedules) {
-//            Log.i("CEKTEAM", schedules[0].strHomeTeam)
-//            startActivity<TeamListActivity>(MainActivity.teamSchedule to schedules[0].dateEvent)
-//        }
         adapter = ScheduleAdapter(schedules, { schedules: Schedule -> partItemClicked(schedules) })
-//        view.club_list.adapter = ScheduleAdapter(schedules, {schedules : Schedule -> partItemClicked(schedules)})
         view.club_list.adapter = adapter
-
     }
 
     private fun partItemClicked(Schedules: Schedule) {
-//        Log.i("Babi", Schedules.strAwayTeam?: "NULL")
         startActivity<TeamListActivity>(
             "parcel" to Schedules
-//            teamSchedule to "${Schedules.dateEvent}",
-//            teamHomeName to "${Schedules.idHomeTeam}",
-//            teamAwayName to "${Schedules.idAwayTeam}",
-//            teamHomeGoal to "${Schedules.intHomeScore}",
-//            teamHomeGoalDetail to "${Schedules.strHomeGoalDetails}",
-//            teamHomeGoalKeeper to "${Schedules.strHomeLineupGoalkeeper}",
-//            teamHomeDefense to "${Schedules.strHomeLineupDefense}",
-//            teamHomeMidfield to "${Schedules.strHomeLineupMidfield}",
-//            teamHomeForward to "${Schedules.strHomeLineupForward}",
-//            teamHomeSubstitutes to "${Schedules.strHomeLineupSubstitutes}",
-//            teamAwayGoal to "${Schedules.intAwayScore}",
-//            teamAwayGoalDetail to "${Schedules.strAwayGoalDetails}",
-//            teamAwayGoalKeeper to "${Schedules.strAwayLineupGoalkeeper}",
-//            teamAwayDefense to "${Schedules.strAwayLineupDefense}",
-//            teamAwayMidfield to "${Schedules.strAwayLineupMidfield}",
-//            teamAwayForward to "${Schedules.strAwayLineupForward}",
-//            teamAwaySubstitutes to "${Schedules.strAwayLineupSubstitutes}"
             )
     }
 
@@ -163,7 +139,7 @@ class FirstFragment : Fragment(), ScheduleContract {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            FirstFragment().apply {
+            TeamsFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

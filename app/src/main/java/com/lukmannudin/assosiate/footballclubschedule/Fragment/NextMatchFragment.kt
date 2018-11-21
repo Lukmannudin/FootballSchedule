@@ -34,7 +34,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  *
  */
-class SecondFragment : Fragment(), ScheduleContract {
+class NextMatchFragment : Fragment(), ScheduleContract {
     override fun showLoading() {
         view?.indeterminateBar2?.visible()
         view?.swiperefresh2?.isRefreshing = false    }
@@ -150,7 +150,7 @@ class SecondFragment : Fragment(), ScheduleContract {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            SecondFragment().apply {
+            NextMatchFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

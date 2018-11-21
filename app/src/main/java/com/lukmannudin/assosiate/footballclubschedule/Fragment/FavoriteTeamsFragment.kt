@@ -3,10 +3,23 @@ package com.lukmannudin.assosiate.footballclubschedule.Fragment
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.gson.Gson
+import com.lukmannudin.assosiate.footballclub.database.database
+import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
+import com.lukmannudin.assosiate.footballclubschedule.Adapter.ScheduleAdapter
+import com.lukmannudin.assosiate.footballclubschedule.Favorite
+import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
+import com.lukmannudin.assosiate.footballclubschedule.Presenter.SchedulePresenter
 import com.lukmannudin.assosiate.footballclubschedule.R
+import com.lukmannudin.assosiate.footballclubschedule.TeamListActivity
+import kotlinx.android.synthetic.main.fragment_first.view.*
+import org.jetbrains.anko.db.classParser
+import org.jetbrains.anko.db.select
+import org.jetbrains.anko.support.v4.startActivity
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -23,12 +36,16 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  *
  */
-class ThirdFragment : Fragment() {
+class FavoriteTeamsFragment : Fragment() {
+
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
 
+    private lateinit var adapter: ScheduleAdapter
+    private var schedules: MutableList<Schedule> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -42,7 +59,51 @@ class ThirdFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_third, container, false)
+        val view = inflater.inflate(R.layout.fragment_first, container, false)
+
+        lateinit var presenter: SchedulePresenter
+        val request = ApiRepository()
+        val gson = Gson()
+
+//        presenter = SchedulePresenter(this, request, gson)
+//        presenter.getScheduleList("")
+        view.swiperefresh.isRefreshing = false
+        view.swiperefresh.setOnRefreshListener {
+//            presenter.getScheduleList("")
+            showFavorite()
+        }
+
+        return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showFavorite()
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.club_list.layoutManager = LinearLayoutManager(view.context)
+        adapter = ScheduleAdapter(schedules, { schedules: Schedule -> partItemClicked(schedules) })
+        view.club_list.adapter = adapter
+    }
+
+    private fun partItemClicked(Schedules: Schedule) {
+        startActivity<TeamListActivity>(
+            "parcel" to Schedules
+        )
+    }
+
+    private fun showFavorite(){
+        schedules.clear()
+        context?.database?.use {
+            val result = select(Favorite.TABLE_FAVORITE)
+            val favorite = result.parseList(classParser<Schedule>())
+            schedules.addAll(favorite)
+            adapter.notifyDataSetChanged()
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,11 +153,26 @@ class ThirdFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            ThirdFragment().apply {
+            FavoriteTeamsFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
                 }
             }
     }
+
+//    override fun showLoading() {
+//        view?.indeterminateBar?.visible()
+//        view?.swiperefresh?.isRefreshing = false
+//    }
+//
+//    override fun hideLoading() {
+//        view?.indeterminateBar?.invisible()
+//    }
+//
+//    override fun showTeamList(data: List<Schedule>) {
+//        schedules.clear()
+//        schedules.addAll(data)
+//        adapter.notifyDataSetChanged()
+//    }
 }

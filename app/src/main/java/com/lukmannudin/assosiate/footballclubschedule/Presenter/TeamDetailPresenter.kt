@@ -1,6 +1,5 @@
 package com.lukmannudin.assosiate.footballclubschedule.Presenter
 
-import android.util.Log
 import com.google.gson.Gson
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.APITeamDetails
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
@@ -23,8 +22,6 @@ class TeamDetailPresenter(
                     .doRequest(APITeamDetails.getTeamDetail(idTeam)),
                 TeamDetailResponse::class.java
             )
-
-            Log.i("CEKDATA",data.teamDetail[0].getStrTeam())
 
             uiThread {
                 //                view.hideLoading()
