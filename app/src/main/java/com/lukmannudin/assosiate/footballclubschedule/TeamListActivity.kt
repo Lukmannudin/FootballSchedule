@@ -75,7 +75,6 @@ class TeamListActivity : AppCompatActivity(), TeamDetailContract {
 
     override fun showHomeTeamDetailList(data: List<TeamDetail>) {
 
-
         teamDetails.clear()
         teamDetails.addAll(data)
         data[0].getStrTeamBadge().let { Picasso.get().load(it).into(teamBadgeHome) }
@@ -135,9 +134,14 @@ class TeamListActivity : AppCompatActivity(), TeamDetailContract {
             database.use {
                 insert(Favorite.TABLE_FAVORITE,
                     Favorite.TEAM_MATCH_EVENT_ID to IntentData.idEvent,
+                    Favorite.TEAM_MATCH_EVENT_DATE to IntentData.dateEvent,
                     Favorite.TEAM_HOME_ID to IntentData.idHomeTeam,
-                    Favorite.TEAM_AWAY_ID to IntentData.idAwayTeam
-
+                    Favorite.TEAM_AWAY_ID to IntentData.idAwayTeam,
+                    Favorite.TEAM_MATCH_EVENT_DATE to IntentData.dateEvent,
+                    Favorite.TEAM_HOME_NAME to IntentData.strHomeTeam,
+                    Favorite.TEAM_AWAY_NAME to IntentData.strAwayTeam,
+                    Favorite.TEAM_HOME_SCORE to IntentData.intHomeScore,
+                    Favorite.TEAM_AWAY_SCORE to IntentData.intAwayScore
                 )
             }
 //            snackbar("Added to favorite").show()

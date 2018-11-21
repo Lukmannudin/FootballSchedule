@@ -1,25 +1,36 @@
 package com.lukmannudin.assosiate.footballclubschedule.Fragment
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.google.gson.Gson
 import com.lukmannudin.assosiate.footballclub.database.database
+import com.lukmannudin.assosiate.footballclubschedule.*
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
+import com.lukmannudin.assosiate.footballclubschedule.Adapter.FavoritesAdapter
 import com.lukmannudin.assosiate.footballclubschedule.Adapter.ScheduleAdapter
-import com.lukmannudin.assosiate.footballclubschedule.Favorite
+import com.lukmannudin.assosiate.footballclubschedule.Contract.ScheduleContract
 import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.SchedulePresenter
-import com.lukmannudin.assosiate.footballclubschedule.R
-import com.lukmannudin.assosiate.footballclubschedule.TeamListActivity
+import com.lukmannudin.assosiate.footballclubschedule.R.color.colorAccent
+import kotlinx.android.synthetic.main.fragment_first.*
 import kotlinx.android.synthetic.main.fragment_first.view.*
+import org.jetbrains.anko.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
+import org.jetbrains.anko.recyclerview.v7.recyclerView
+import org.jetbrains.anko.support.v4.intentFor
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.swipeRefreshLayout
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -36,7 +47,9 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  *
  */
-class FavoriteTeamsFragment : Fragment() {
+class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
+    private var schedules: MutableList<Schedule> = mutableListOf()
+
 
 
     // TODO: Rename and change types of parameters
@@ -44,36 +57,34 @@ class FavoriteTeamsFragment : Fragment() {
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
 
-    private lateinit var adapter: ScheduleAdapter
-    private var schedules: MutableList<Schedule> = mutableListOf()
+//    private lateinit var adapter: ScheduleAdapter
+//    private var schedules: MutableList<Schedule> = mutableListOf()
+
+    private var favorites: MutableList<Favorite> = mutableListOf()
+    private lateinit var adapter: FavoritesAdapter
+    private lateinit var listTeam: RecyclerView
+    private lateinit var swipeRefresh: SwipeRefreshLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_first, container, false)
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        view.club_list.layoutManager = LinearLayoutManager(view.context)
+//        adapter = FavoritesAdapter(favorites, { favorites: Favorite -> partItemClicked(favorites) })
+//        view.club_list.adapter = adapter
+//    }
 
-        lateinit var presenter: SchedulePresenter
-        val request = ApiRepository()
-        val gson = Gson()
-
-//        presenter = SchedulePresenter(this, request, gson)
-//        presenter.getScheduleList("")
-        view.swiperefresh.isRefreshing = false
-        view.swiperefresh.setOnRefreshListener {
-//            presenter.getScheduleList("")
-            showFavorite()
-        }
-
-        return view
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        adapter = FavoritesAdapter(favorites, { favorites: Favorite -> partItemClicked(favorites) })
+        listTeam.adapter = adapter
     }
 
     override fun onResume() {
@@ -81,27 +92,34 @@ class FavoriteTeamsFragment : Fragment() {
         showFavorite()
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        view.club_list.layoutManager = LinearLayoutManager(view.context)
-        adapter = ScheduleAdapter(schedules, { schedules: Schedule -> partItemClicked(schedules) })
-        view.club_list.adapter = adapter
+    private fun partItemClicked(Favorites: Favorite) {
+        startActivity(intentFor<FavoritesDetailActivity>(
+            "teamMatchEventId" to Favorites.teamMatchEventId,
+            "teamHomeId" to Favorites.teamHomeId,
+            "teamAwayId" to Favorites.teamAwayId,
+            "eventMatchDate" to Favorites.teamMatchEventDate
+        ))
     }
 
-    private fun partItemClicked(Schedules: Schedule) {
-        startActivity<TeamListActivity>(
-            "parcel" to Schedules
-        )
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return createView(AnkoContext.create(requireContext()))
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//        showFavorite()
+//    }
+
+
+
 
     private fun showFavorite(){
-        schedules.clear()
+        favorites.clear()
         context?.database?.use {
             val result = select(Favorite.TABLE_FAVORITE)
-            val favorite = result.parseList(classParser<Schedule>())
-            schedules.addAll(favorite)
+            val favorite = result.parseList(classParser<Favorite>())
+            favorites.addAll(favorite)
             adapter.notifyDataSetChanged()
         }
     }
@@ -160,7 +178,26 @@ class FavoriteTeamsFragment : Fragment() {
                 }
             }
     }
+    override fun createView(ui: AnkoContext<Context>): View = with(ui){
+        linearLayout {
+            lparams (width = matchParent, height = wrapContent)
+            topPadding = dip(16)
+            leftPadding = dip(16)
+            rightPadding = dip(16)
 
+            swipeRefresh = swipeRefreshLayout {
+                setColorSchemeResources(colorAccent,
+                    android.R.color.holo_green_light,
+                    android.R.color.holo_orange_light,
+                    android.R.color.holo_red_light)
+
+                listTeam = recyclerView {
+                    lparams (width = matchParent, height = wrapContent)
+                    layoutManager = LinearLayoutManager(ctx)
+                }
+            }
+        }
+    }
 //    override fun showLoading() {
 //        view?.indeterminateBar?.visible()
 //        view?.swiperefresh?.isRefreshing = false

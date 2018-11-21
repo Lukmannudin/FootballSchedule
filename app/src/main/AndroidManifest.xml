@@ -27,6 +27,11 @@
 
         <activity android:name=".MainActivity">
         </activity>
+        <activity android:name=".FavoritesDetailActivity"
+                android:parentActivityName=".MainActivity"
+        >
+
+        </activity>
     </application>
 
 </manifest>

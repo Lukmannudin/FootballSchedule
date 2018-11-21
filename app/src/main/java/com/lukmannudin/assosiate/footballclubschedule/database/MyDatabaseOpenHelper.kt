@@ -22,10 +22,16 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Favorit
         // Here you create tables
         db.createTable(
             Favorite.TABLE_FAVORITE, true,
-            Favorite.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
-            Favorite.TEAM_MATCH_EVENT_ID to TEXT + UNIQUE,
+//            Favorite.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
+
+            Favorite.TEAM_MATCH_EVENT_ID to TEXT + PRIMARY_KEY ,
+            Favorite.TEAM_MATCH_EVENT_DATE to TEXT,
             Favorite.TEAM_HOME_ID to TEXT,
-            Favorite.TEAM_AWAY_ID to TEXT
+            Favorite.TEAM_AWAY_ID to TEXT,
+            Favorite.TEAM_HOME_NAME to TEXT,
+            Favorite.TEAM_AWAY_NAME to TEXT,
+            Favorite.TEAM_HOME_SCORE to TEXT,
+            Favorite.TEAM_AWAY_SCORE to TEXT
         )
     }
 

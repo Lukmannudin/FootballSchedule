@@ -45,6 +45,7 @@ class TeamsFragment : Fragment(), ScheduleContract {
     private var schedules: MutableList<Schedule> = mutableListOf()
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {

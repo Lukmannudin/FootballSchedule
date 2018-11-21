@@ -34,7 +34,7 @@ class SchedulePresenter(private val view: ScheduleContract,
 
     fun getScheduleDetails(idEvent: String?){
 
-        view.showLoading()
+//        view.showLoading()
         doAsync {
             val data = gson.fromJson(apiRepository
                 .doRequest(APIScheduleTeam.getScheduleDetails(idEvent)),
@@ -43,8 +43,8 @@ class SchedulePresenter(private val view: ScheduleContract,
 
 
             uiThread {
-                view.hideLoading()
-                view.showTeamList(data.schedules)
+//                view.hideLoading()
+                    view.showTeamList(data.schedules)
 
             }
         }
