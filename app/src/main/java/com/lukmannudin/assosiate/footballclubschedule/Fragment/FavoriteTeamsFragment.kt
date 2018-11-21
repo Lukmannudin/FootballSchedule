@@ -74,12 +74,6 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
         }
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        view.club_list.layoutManager = LinearLayoutManager(view.context)
-//        adapter = FavoritesAdapter(favorites, { favorites: Favorite -> partItemClicked(favorites) })
-//        view.club_list.adapter = adapter
-//    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

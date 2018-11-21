@@ -1,11 +1,16 @@
 package com.lukmannudin.assosiate.footballclubschedule
 
+import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.ProgressBar
+import android.widget.Toast
 import com.google.gson.Gson
+import com.lukmannudin.assosiate.footballclub.database.database
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
 import com.lukmannudin.assosiate.footballclubschedule.Contract.ScheduleContract
 import com.lukmannudin.assosiate.footballclubschedule.Contract.TeamDetailContract
@@ -15,6 +20,8 @@ import com.lukmannudin.assosiate.footballclubschedule.Presenter.SchedulePresente
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.TeamDetailPresenter
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.team_detail_layout.*
+import org.jetbrains.anko.db.delete
+import org.jetbrains.anko.db.insert
 
 
 class FavoritesDetailActivity : AppCompatActivity(), TeamDetailContract,ScheduleContract {
@@ -23,7 +30,9 @@ class FavoritesDetailActivity : AppCompatActivity(), TeamDetailContract,Schedule
     private var teamDetails: MutableList<TeamDetail> = mutableListOf()
     lateinit var presenter: TeamDetailPresenter
     lateinit var favoriteDetailPresenter: SchedulePresenter
-
+    lateinit var matchId: String
+    private var menuItem: Menu? = null
+    private var isFavorite: Boolean = false
 
 
 
@@ -34,7 +43,7 @@ class FavoritesDetailActivity : AppCompatActivity(), TeamDetailContract,Schedule
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
-        val matchId = intent.getStringExtra("teamMatchEventId")
+        matchId = intent.getStringExtra("teamMatchEventId")
         val homeTeamId = intent.getStringExtra("teamHomeId")
         val awayTeamId = intent.getStringExtra("teamAwayId")
         val dateEvent = intent.getStringExtra("eventMatchDate")
@@ -77,7 +86,6 @@ class FavoritesDetailActivity : AppCompatActivity(), TeamDetailContract,Schedule
         teamDetails.addAll(data)
         data[0].getStrTeamBadge().let { Picasso.get().load(it).into(teamBadgeHome) }
         teamHomeName.text = data[0].getStrTeam()
-
     }
 
     override fun showAwayTeamDetailList(data: List<TeamDetail>) {
@@ -87,6 +95,54 @@ class FavoritesDetailActivity : AppCompatActivity(), TeamDetailContract,Schedule
         teamAwayName.text = data[0].getStrTeam()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        return super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.detail_menu,menu)
+        menuItem = menu
+        setFavorite()
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            R.id.add_to_favorite -> {
+                removeFromFavorite()
+                Toast.makeText(this,"This Favorite removed",Toast.LENGTH_SHORT).show()
+                supportFragmentManager.popBackStack()
+
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+
+
+    private fun removeFromFavorite(){
+        try {
+            database.use {
+                delete(Favorite.TABLE_FAVORITE,
+                    "(TEAM_MATCH_EVENT_ID = {eventId})",
+                    "eventId" to matchId
+                )
+            }
+//            swipeRefresh.snackbar("Removed to favorite").show()
+            Toast.makeText(this,"Removed to favorite", Toast.LENGTH_SHORT).show()
+        } catch (e: SQLiteConstraintException){
+//            swipeRefresh.snackbar(e.localizedMessage).show()
+            Toast.makeText(this,e.localizedMessage, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setFavorite() {
+            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_added_to_favorites)
+
+    }
 
 
 
