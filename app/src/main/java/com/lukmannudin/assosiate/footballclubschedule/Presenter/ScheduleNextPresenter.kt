@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.APINextScheduleTeam
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
 import com.lukmannudin.assosiate.footballclubschedule.Contract.ScheduleContract
-import com.lukmannudin.assosiate.footballclubschedule.ScheduleResponse
+import com.lukmannudin.assosiate.footballclubschedule.Response.ScheduleResponse
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 

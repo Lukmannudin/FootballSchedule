@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +30,7 @@ import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.intentFor
+import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
 
@@ -84,6 +86,9 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
         super.onActivityCreated(savedInstanceState)
         adapter = FavoritesAdapter(favorites, { favorites: Favorite -> partItemClicked(favorites) })
         listTeam.adapter = adapter
+        swipeRefresh.onRefresh {
+            showFavorite()
+        }
     }
 
     override fun onResume() {
@@ -107,6 +112,7 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
 
     private fun showFavorite(){
         favorites.clear()
+        swipeRefresh.isRefreshing = false
         context?.database?.use {
             val result = select(Favorite.TABLE_FAVORITE)
             val favorite = result.parseList(classParser<Favorite>())
