@@ -2,83 +2,70 @@ package com.lukmannudin.assosiate.footballclubschedule
 
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.v4.content.ContextCompat
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.google.gson.Gson
 import com.lukmannudin.assosiate.footballclub.database.database
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
-import com.lukmannudin.assosiate.footballclubschedule.Contract.ScheduleContract
 import com.lukmannudin.assosiate.footballclubschedule.Contract.TeamDetailContract
-import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
+import com.lukmannudin.assosiate.footballclubschedule.Model.Team
 import com.lukmannudin.assosiate.footballclubschedule.Model.TeamDetail
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.SchedulePresenter
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.TeamDetailPresenter
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_first.*
-import kotlinx.android.synthetic.main.fragment_first.view.*
-import kotlinx.android.synthetic.main.fragment_second.*
 import kotlinx.android.synthetic.main.team_detail_layout.*
+import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.delete
+import org.jetbrains.anko.db.insert
+import org.jetbrains.anko.db.select
 
+class TeamNextMatchActivity : AppCompatActivity(), TeamDetailContract{
 
-class FavoritesDetailActivity : AppCompatActivity(), TeamDetailContract, ScheduleContract {
-
+    private lateinit var presenter: TeamDetailPresenter
     private var teamDetails: MutableList<TeamDetail> = mutableListOf()
-    lateinit var presenter: TeamDetailPresenter
-    lateinit var favoriteDetailPresenter: SchedulePresenter
-    lateinit var matchId: String
     private var menuItem: Menu? = null
     private var isFavorite: Boolean = false
-
-
+    private lateinit var eventId: String
+    private lateinit var homeId: String
+    private lateinit var awayId: String
+    private lateinit var dateEvent: String
+    private lateinit var homeTeamName: String
+    private lateinit var awayTeamName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.team_detail_layout)
-        supportActionBar?.title = "Team Detail"
+        supportActionBar?.title = "Next Match Schedule"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        eventId = intent.getStringExtra(Team.TEAM_MATCH_EVENT_ID)
+        homeId = intent.getStringExtra(Team.TEAM_HOME_ID)
+        awayId = intent.getStringExtra(Team.TEAM_AWAY_ID)
+        dateEvent = intent.getStringExtra(Team.TEAM_MATCH_EVENT_DATE)
+        homeTeamName = intent.getStringExtra(Team.TEAM_HOME_NAME)
+        awayTeamName = intent.getStringExtra(Team.TEAM_AWAY_NAME)
 
-        matchId = intent.getStringExtra("teamMatchEventId")
-        val homeTeamId = intent.getStringExtra("teamHomeId")
-        val awayTeamId = intent.getStringExtra("teamAwayId")
-        val dateEvent = intent.getStringExtra("eventMatchDate")
+        Log.i("eventId:homeId:awayId",eventId+":"+homeId+":"+awayId)
+
         dateEventSchedule.text = dateEvent
-
         val request = ApiRepository()
         val gson = Gson()
         presenter = TeamDetailPresenter(this, request, gson)
-        presenter.getHomeTeamDetailList(homeTeamId)
-        presenter.getAwayTeamDetailList(awayTeamId)
-
-        favoriteDetailPresenter = SchedulePresenter(this,request,gson)
-        favoriteDetailPresenter.getScheduleDetails(matchId)
-
+        presenter.getHomeTeamDetailList(homeId)
+        presenter.getAwayTeamDetailList(awayId)
     }
 
+    override fun showLoading() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
-
-    override fun showTeamList(data: List<Schedule>) {
-        teamHomeGoals.text = data[0].intHomeScore
-        teamHomeGoalDetail.text = data[0].strHomeGoalDetails
-        teamHomeGoalkeeper.text = data[0].strHomeLineupGoalkeeper
-        teamHomeDefense.text = data[0].strHomeLineupDefense
-        teamHomeMidfield.text = data[0].strHomeLineupMidfield
-        teamHomeForward.text = data[0].strHomeLineupForward
-        teamHomeSubstitute.text = data[0].strHomeLineupSubstitutes
-
-        teamAwayGoals.text = data[0].intAwayScore
-        teamAwayGoalDetail.text = data[0].strAwayGoalDetails
-        teamAwayGoalkeeper.text = data[0].strAwayLineupGoalkeeper
-        teamAwayDefense.text = data[0].strAwayLineupDefense
-        teamAwayMidfield.text = data[0].strAwayLineupMidfield
-        teamAwayForward.text = data[0].strAwayLineupForward
-        teamAwaySubstitute.text = data[0].strAwayLineupSubstitutes
-
+    override fun hideLoading() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun showHomeTeamDetailList(data: List<TeamDetail>) {
@@ -110,25 +97,47 @@ class FavoritesDetailActivity : AppCompatActivity(), TeamDetailContract, Schedul
                 true
             }
             R.id.add_to_favorite -> {
-                removeFromFavorite()
-                Toast.makeText(this,"This Favorite removed",Toast.LENGTH_SHORT).show()
-                supportFragmentManager.popBackStack()
+                if (isFavorite) removeFromFavorite() else addToFavorite()
+
+                isFavorite = !isFavorite
+                setFavorite()
+
                 true
             }
 
             else -> super.onOptionsItemSelected(item)
         }
-
     }
 
-
+    private fun addToFavorite(){
+        try {
+            database.use {
+                insert(Favorite.TABLE_FAVORITE,
+                    Favorite.TEAM_MATCH_EVENT_ID to eventId,
+                    Favorite.TEAM_MATCH_EVENT_DATE to eventId,
+                    Favorite.TEAM_HOME_ID to homeId,
+                    Favorite.TEAM_AWAY_ID to awayId,
+                    Favorite.TEAM_MATCH_EVENT_DATE to dateEvent,
+                    Favorite.TEAM_HOME_NAME to homeTeamName,
+                    Favorite.TEAM_AWAY_NAME to awayTeamName,
+                    Favorite.TEAM_HOME_SCORE to "",
+                    Favorite.TEAM_AWAY_SCORE to ""
+                )
+            }
+//            snackbar("Added to favorite").show()
+            Toast.makeText(this,"Added to favorite", Toast.LENGTH_SHORT).show()
+        } catch (e: SQLiteConstraintException){
+//            snackbar(e.localizedMessage).show()
+            Toast.makeText(this,e.localizedMessage, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     private fun removeFromFavorite(){
         try {
             database.use {
                 delete(Favorite.TABLE_FAVORITE,
                     "(TEAM_MATCH_EVENT_ID = {eventId})",
-                    "eventId" to matchId
+                    "eventId" to eventId
                 )
             }
 //            swipeRefresh.snackbar("Removed to favorite").show()
@@ -140,15 +149,19 @@ class FavoritesDetailActivity : AppCompatActivity(), TeamDetailContract, Schedul
     }
 
     private fun setFavorite() {
+        if (isFavorite)
             menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_added_to_favorites)
-
+        else
+            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_add_to_favorites)
     }
-
-    override fun showLoading() {
+    private fun favoriteState(){
+        database.use {
+            val result = select(Favorite.TABLE_FAVORITE)
+                .whereArgs("(TEAM_MATCH_EVENT_ID = {eventId})",
+                    "eventId" to eventId)
+            println("INI EVENT"+eventId)
+            val favorite = result.parseList(classParser<Favorite>())
+            if (!favorite.isEmpty()) isFavorite = true
+        }
     }
-
-    override fun hideLoading() {
-    }
-
-
 }

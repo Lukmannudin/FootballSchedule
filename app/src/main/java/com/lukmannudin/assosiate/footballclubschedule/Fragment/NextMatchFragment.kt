@@ -13,11 +13,14 @@ import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
 import com.lukmannudin.assosiate.footballclubschedule.Adapter.ScheduleAdapter
 import com.lukmannudin.assosiate.footballclubschedule.Contract.ScheduleContract
 import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
+import com.lukmannudin.assosiate.footballclubschedule.Model.Team
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.ScheduleNextPresenter
 import com.lukmannudin.assosiate.footballclubschedule.R
+import com.lukmannudin.assosiate.footballclubschedule.TeamNextMatchActivity
 import com.lukmannudin.assosiate.footballclubschedule.invisible
 import com.lukmannudin.assosiate.footballclubschedule.visible
 import kotlinx.android.synthetic.main.fragment_second.view.*
+import org.jetbrains.anko.support.v4.startActivity
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -87,18 +90,20 @@ class NextMatchFragment : Fragment(), ScheduleContract {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.club_list2.layoutManager = LinearLayoutManager(view.context)
-//        adapter = ScheduleAdapter(schedules) {
-//            Log.i("CEKTEAM", schedules[0].strHomeTeam)
-//            startActivity<TeamListActivity>(MainActivity.teamSchedule to schedules[0].dateEvent)
-//        }
         adapter = ScheduleAdapter(schedules, { schedules: Schedule -> partItemClicked(schedules) })
-//        view.club_list.adapter = ScheduleAdapter(schedules, {schedules : Schedule -> partItemClicked(schedules)})
         view.club_list2.adapter = adapter
 
     }
 
     private fun partItemClicked(Schedules: Schedule) {
-     Toast.makeText(activity,"${Schedules.strHomeTeam} VS ${Schedules.strAwayTeam}",Toast.LENGTH_SHORT).show()
+        startActivity<TeamNextMatchActivity>(
+            Team.TEAM_MATCH_EVENT_ID to Schedules.idEvent,
+            Team.TEAM_HOME_ID to Schedules.idHomeTeam,
+            Team.TEAM_AWAY_ID to Schedules.idAwayTeam,
+            Team.TEAM_MATCH_EVENT_DATE to Schedules.dateEvent,
+            Team.TEAM_HOME_NAME to Schedules.strHomeTeam,
+            Team.TEAM_AWAY_NAME to Schedules.strAwayTeam
+        )
     }
 
     // TODO: Rename method, update argument and hook method into UI event

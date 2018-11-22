@@ -22,7 +22,6 @@ data class Favorite(
 //    val teamAwayForward: String?,
 //    val teamHomeSubstitutes: String?,
 //    val teamAwaySubstitutes: String
-
     ) {
 
     companion object {

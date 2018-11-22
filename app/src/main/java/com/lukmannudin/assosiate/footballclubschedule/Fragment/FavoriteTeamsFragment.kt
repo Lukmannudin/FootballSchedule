@@ -48,6 +48,8 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
+
+
     private var schedules: MutableList<Schedule> = mutableListOf()
 
 
@@ -72,6 +74,9 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+
+
     }
 
 
@@ -100,14 +105,6 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
         return createView(AnkoContext.create(requireContext()))
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        showFavorite()
-//    }
-
-
-
-
     private fun showFavorite(){
         favorites.clear()
         context?.database?.use {
@@ -122,15 +119,6 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
     fun onButtonPressed(uri: Uri) {
         listener?.onFragmentInteraction(uri)
     }
-
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        if (context is OnFragmentInteractionListener) {
-//            listener = context
-//        } else {
-//            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-//        }
-//    }
 
     override fun onDetach() {
         super.onDetach()
@@ -192,18 +180,5 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
             }
         }
     }
-//    override fun showLoading() {
-//        view?.indeterminateBar?.visible()
-//        view?.swiperefresh?.isRefreshing = false
-//    }
-//
-//    override fun hideLoading() {
-//        view?.indeterminateBar?.invisible()
-//    }
-//
-//    override fun showTeamList(data: List<Schedule>) {
-//        schedules.clear()
-//        schedules.addAll(data)
-//        adapter.notifyDataSetChanged()
-//    }
+
 }

@@ -30,8 +30,8 @@
         <activity android:name=".FavoritesDetailActivity"
                 android:parentActivityName=".MainActivity"
         >
-
         </activity>
+        <activity android:name=".TeamNextMatchActivity"/>
     </application>
 
 </manifest>
