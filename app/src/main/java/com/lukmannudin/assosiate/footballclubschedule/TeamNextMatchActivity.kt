@@ -2,10 +2,8 @@ package com.lukmannudin.assosiate.footballclubschedule
 
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -15,7 +13,6 @@ import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
 import com.lukmannudin.assosiate.footballclubschedule.Contract.TeamDetailContract
 import com.lukmannudin.assosiate.footballclubschedule.Model.Team
 import com.lukmannudin.assosiate.footballclubschedule.Model.TeamDetail
-import com.lukmannudin.assosiate.footballclubschedule.Presenter.SchedulePresenter
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.TeamDetailPresenter
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.team_detail_layout.*
@@ -50,7 +47,7 @@ class TeamNextMatchActivity : AppCompatActivity(), TeamDetailContract{
         homeTeamName = intent.getStringExtra(Team.TEAM_HOME_NAME)
         awayTeamName = intent.getStringExtra(Team.TEAM_AWAY_NAME)
 
-        Log.i("eventId:homeId:awayId",eventId+":"+homeId+":"+awayId)
+        favoriteState()
 
         dateEventSchedule.text = dateEvent
         val request = ApiRepository()
@@ -141,7 +138,7 @@ class TeamNextMatchActivity : AppCompatActivity(), TeamDetailContract{
                 )
             }
 //            swipeRefresh.snackbar("Removed to favorite").show()
-            Toast.makeText(this,"Removed to favorite", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Removed from favorite", Toast.LENGTH_SHORT).show()
         } catch (e: SQLiteConstraintException){
 //            swipeRefresh.snackbar(e.localizedMessage).show()
             Toast.makeText(this,e.localizedMessage, Toast.LENGTH_SHORT).show()

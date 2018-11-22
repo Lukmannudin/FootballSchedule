@@ -7,29 +7,21 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.google.gson.Gson
 import com.lukmannudin.assosiate.footballclub.database.database
-import com.lukmannudin.assosiate.footballclubschedule.*
-import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
 import com.lukmannudin.assosiate.footballclubschedule.Adapter.FavoritesAdapter
-import com.lukmannudin.assosiate.footballclubschedule.Adapter.ScheduleAdapter
-import com.lukmannudin.assosiate.footballclubschedule.Contract.ScheduleContract
+import com.lukmannudin.assosiate.footballclubschedule.Favorite
+import com.lukmannudin.assosiate.footballclubschedule.FavoritesDetailActivity
 import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
-import com.lukmannudin.assosiate.footballclubschedule.Presenter.SchedulePresenter
 import com.lukmannudin.assosiate.footballclubschedule.R.color.colorAccent
-import kotlinx.android.synthetic.main.fragment_first.*
-import kotlinx.android.synthetic.main.fragment_first.view.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.intentFor
-import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
 
 
@@ -84,6 +76,9 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
         super.onActivityCreated(savedInstanceState)
         adapter = FavoritesAdapter(favorites, { favorites: Favorite -> partItemClicked(favorites) })
         listTeam.adapter = adapter
+        swipeRefresh.onRefresh {
+            showFavorite()
+        }
     }
 
     override fun onResume() {
@@ -107,6 +102,7 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
 
     private fun showFavorite(){
         favorites.clear()
+        swipeRefresh.isRefreshing = false
         context?.database?.use {
             val result = select(Favorite.TABLE_FAVORITE)
             val favorite = result.parseList(classParser<Favorite>())
