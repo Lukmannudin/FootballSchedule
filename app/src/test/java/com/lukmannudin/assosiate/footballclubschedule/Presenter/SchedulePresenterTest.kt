@@ -6,11 +6,11 @@ import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
 import com.lukmannudin.assosiate.footballclubschedule.Contract.ScheduleContract
 import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
 import com.lukmannudin.assosiate.footballclubschedule.Response.ScheduleResponse
+import com.lukmannudin.assosiate.footballclubschedule.TestContextProvider
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.junit.Test
 
-import org.junit.Assert.*
 import org.junit.Before
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -37,7 +37,7 @@ class SchedulePresenterTest {
     @Before
     fun setUp(){
         MockitoAnnotations.initMocks(this)
-        presenter = SchedulePresenter(view, apiRepository, gson)
+        presenter = SchedulePresenter(view, apiRepository, gson, TestContextProvider())
     }
 
     @Test
