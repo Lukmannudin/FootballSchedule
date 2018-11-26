@@ -1,15 +1,12 @@
 package com.lukmannudin.assosiate.footballclubschedule.APIRequest
 
-import org.junit.Before
 import org.junit.Test
+
+import org.junit.Assert.*
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 
 class ApiRepositoryTest {
-
-    @Before
-    fun setUp() {
-    }
 
     @Test
     fun doRequest() {

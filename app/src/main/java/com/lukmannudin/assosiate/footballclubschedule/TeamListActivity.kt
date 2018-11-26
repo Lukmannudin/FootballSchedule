@@ -74,7 +74,6 @@ class TeamListActivity : AppCompatActivity(), TeamDetailContract {
     }
 
     override fun showHomeTeamDetailList(data: List<TeamDetail>) {
-
         teamDetails.clear()
         teamDetails.addAll(data)
         data[0].getStrTeamBadge().let { Picasso.get().load(it).into(teamBadgeHome) }
@@ -118,10 +117,8 @@ class TeamListActivity : AppCompatActivity(), TeamDetailContract {
             }
             add_to_favorite -> {
                 if (isFavorite) removeFromFavorite() else addToFavorite()
-
                 isFavorite = !isFavorite
                 setFavorite()
-
                 true
             }
 

@@ -30,20 +30,11 @@ import org.jetbrains.anko.support.v4.swipeRefreshLayout
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [ThirdFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [ThirdFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
+
 class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
 
 
     private var schedules: MutableList<Schedule> = mutableListOf()
-
 
 
     // TODO: Rename and change types of parameters
@@ -68,7 +59,6 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
         }
 
 
-
     }
 
 
@@ -87,12 +77,14 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
     }
 
     private fun partItemClicked(Favorites: Favorite) {
-        startActivity(intentFor<FavoritesDetailActivity>(
-            "teamMatchEventId" to Favorites.teamMatchEventId,
-            "teamHomeId" to Favorites.teamHomeId,
-            "teamAwayId" to Favorites.teamAwayId,
-            "eventMatchDate" to Favorites.teamMatchEventDate
-        ))
+        startActivity(
+            intentFor<FavoritesDetailActivity>(
+                "teamMatchEventId" to Favorites.teamMatchEventId,
+                "teamHomeId" to Favorites.teamHomeId,
+                "teamAwayId" to Favorites.teamAwayId,
+                "eventMatchDate" to Favorites.teamMatchEventDate
+            )
+        )
     }
 
 
@@ -100,7 +92,7 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
         return createView(AnkoContext.create(requireContext()))
     }
 
-    private fun showFavorite(){
+    private fun showFavorite() {
         favorites.clear()
         swipeRefresh.isRefreshing = false
         context?.database?.use {
@@ -156,21 +148,24 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
                 }
             }
     }
-    override fun createView(ui: AnkoContext<Context>): View = with(ui){
+
+    override fun createView(ui: AnkoContext<Context>): View = with(ui) {
         linearLayout {
-            lparams (width = matchParent, height = wrapContent)
+            lparams(width = matchParent, height = wrapContent)
             topPadding = dip(16)
             leftPadding = dip(16)
             rightPadding = dip(16)
 
             swipeRefresh = swipeRefreshLayout {
-                setColorSchemeResources(colorAccent,
+                setColorSchemeResources(
+                    colorAccent,
                     android.R.color.holo_green_light,
                     android.R.color.holo_orange_light,
-                    android.R.color.holo_red_light)
+                    android.R.color.holo_red_light
+                )
 
                 listTeam = recyclerView {
-                    lparams (width = matchParent, height = wrapContent)
+                    lparams(width = matchParent, height = wrapContent)
                     layoutManager = LinearLayoutManager(ctx)
                 }
             }

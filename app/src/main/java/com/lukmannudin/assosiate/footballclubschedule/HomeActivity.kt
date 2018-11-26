@@ -22,11 +22,9 @@ class HomeActivity : AppCompatActivity() {
                 nextMatch -> {
                     loadNextMatchFragment(savedInstanceState)
                 }
-
                 favorites -> {
                     loadFavoritesFragment(savedInstanceState)
                 }
-
             }
             true
         }

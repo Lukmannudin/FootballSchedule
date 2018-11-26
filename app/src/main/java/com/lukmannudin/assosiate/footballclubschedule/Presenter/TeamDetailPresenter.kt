@@ -4,9 +4,10 @@ import com.google.gson.Gson
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.APITeamDetails
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
 import com.lukmannudin.assosiate.footballclubschedule.Contract.TeamDetailContract
-import com.lukmannudin.assosiate.footballclubschedule.TeamDetailResponse
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import com.lukmannudin.assosiate.footballclubschedule.Response.TeamDetailResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class TeamDetailPresenter(
     private val view: TeamDetailContract,
@@ -15,36 +16,25 @@ class TeamDetailPresenter(
 ) {
     fun getHomeTeamDetailList(idTeam: String?) {
 
-//        view.showLoading()
-        doAsync {
+        GlobalScope.launch(Dispatchers.Main) {
             val data = gson.fromJson(
                 apiRepository
-                    .doRequest(APITeamDetails.getTeamDetail(idTeam)),
+                    .doRequest(APITeamDetails.getTeamDetail(idTeam)).await(),
                 TeamDetailResponse::class.java
             )
-
-            uiThread {
-                //                view.hideLoading()
-
-                view.showHomeTeamDetailList(data.teamDetail)
-            }
+            view.showHomeTeamDetailList(data.teamDetail)
         }
     }
 
     fun getAwayTeamDetailList(idTeam: String?) {
-
-//        view.showLoading()
-        doAsync {
+        GlobalScope.launch(Dispatchers.Main) {
             val data = gson.fromJson(
                 apiRepository
-                    .doRequest(APITeamDetails.getTeamDetail(idTeam)),
+                    .doRequest(APITeamDetails.getTeamDetail(idTeam)).await(),
                 TeamDetailResponse::class.java
             )
+            view.showAwayTeamDetailList(data.teamDetail)
 
-            uiThread {
-                //                view.hideLoading()
-                view.showAwayTeamDetailList(data.teamDetail)
-            }
         }
     }
 }
