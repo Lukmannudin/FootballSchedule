@@ -7,31 +7,21 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.google.gson.Gson
 import com.lukmannudin.assosiate.footballclub.database.database
-import com.lukmannudin.assosiate.footballclubschedule.*
-import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
 import com.lukmannudin.assosiate.footballclubschedule.Adapter.FavoritesAdapter
-import com.lukmannudin.assosiate.footballclubschedule.Adapter.ScheduleAdapter
-import com.lukmannudin.assosiate.footballclubschedule.Contract.ScheduleContract
+import com.lukmannudin.assosiate.footballclubschedule.Favorite
+import com.lukmannudin.assosiate.footballclubschedule.FavoritesDetailActivity
 import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
-import com.lukmannudin.assosiate.footballclubschedule.Presenter.SchedulePresenter
 import com.lukmannudin.assosiate.footballclubschedule.R.color.colorAccent
-import kotlinx.android.synthetic.main.fragment_first.*
-import kotlinx.android.synthetic.main.fragment_first.view.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.intentFor
 import org.jetbrains.anko.support.v4.onRefresh
-import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
 
 
@@ -40,20 +30,11 @@ import org.jetbrains.anko.support.v4.swipeRefreshLayout
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [ThirdFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [ThirdFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
+
 class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
 
 
     private var schedules: MutableList<Schedule> = mutableListOf()
-
 
 
     // TODO: Rename and change types of parameters
@@ -78,7 +59,6 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
         }
 
 
-
     }
 
 
@@ -97,12 +77,14 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
     }
 
     private fun partItemClicked(Favorites: Favorite) {
-        startActivity(intentFor<FavoritesDetailActivity>(
-            "teamMatchEventId" to Favorites.teamMatchEventId,
-            "teamHomeId" to Favorites.teamHomeId,
-            "teamAwayId" to Favorites.teamAwayId,
-            "eventMatchDate" to Favorites.teamMatchEventDate
-        ))
+        startActivity(
+            intentFor<FavoritesDetailActivity>(
+                "teamMatchEventId" to Favorites.teamMatchEventId,
+                "teamHomeId" to Favorites.teamHomeId,
+                "teamAwayId" to Favorites.teamAwayId,
+                "eventMatchDate" to Favorites.teamMatchEventDate
+            )
+        )
     }
 
 
@@ -110,7 +92,7 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
         return createView(AnkoContext.create(requireContext()))
     }
 
-    private fun showFavorite(){
+    private fun showFavorite() {
         favorites.clear()
         swipeRefresh.isRefreshing = false
         context?.database?.use {
@@ -166,21 +148,24 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
                 }
             }
     }
-    override fun createView(ui: AnkoContext<Context>): View = with(ui){
+
+    override fun createView(ui: AnkoContext<Context>): View = with(ui) {
         linearLayout {
-            lparams (width = matchParent, height = wrapContent)
+            lparams(width = matchParent, height = wrapContent)
             topPadding = dip(16)
             leftPadding = dip(16)
             rightPadding = dip(16)
 
             swipeRefresh = swipeRefreshLayout {
-                setColorSchemeResources(colorAccent,
+                setColorSchemeResources(
+                    colorAccent,
                     android.R.color.holo_green_light,
                     android.R.color.holo_orange_light,
-                    android.R.color.holo_red_light)
+                    android.R.color.holo_red_light
+                )
 
                 listTeam = recyclerView {
-                    lparams (width = matchParent, height = wrapContent)
+                    lparams(width = matchParent, height = wrapContent)
                     layoutManager = LinearLayoutManager(ctx)
                 }
             }

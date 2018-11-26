@@ -5,30 +5,27 @@ import com.lukmannudin.assosiate.footballclubschedule.APIRequest.APINextSchedule
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
 import com.lukmannudin.assosiate.footballclubschedule.Contract.ScheduleContract
 import com.lukmannudin.assosiate.footballclubschedule.Response.ScheduleResponse
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class ScheduleNextPresenter(private val view: ScheduleContract,
-                            private val apiRepository: ApiRepository,
-                            private val gson: Gson
-                    ){
+class ScheduleNextPresenter(
+    private val view: ScheduleContract,
+    private val apiRepository: ApiRepository,
+    private val gson: Gson
+) {
 
 
-    fun getScheduleList(league: String?){
-
+    fun getScheduleList(league: String?) {
         view.showLoading()
-        doAsync {
-            val data = gson.fromJson(apiRepository
-                .doRequest(APINextScheduleTeam.getSchedule(league)),
+        GlobalScope.launch(Dispatchers.Main) {
+            val data = gson.fromJson(
+                apiRepository
+                    .doRequest(APINextScheduleTeam.getSchedule(league)).await(),
                 ScheduleResponse::class.java
             )
-
-
-            uiThread {
-                view.hideLoading()
-                view.showTeamList(data.schedules)
-
-            }
+            view.hideLoading()
+            view.showTeamList(data.schedules)
         }
     }
 }

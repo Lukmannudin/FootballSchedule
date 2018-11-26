@@ -158,7 +158,7 @@ class TeamListActivity : AppCompatActivity(), TeamDetailContract {
                 )
             }
 //            swipeRefresh.snackbar("Removed to favorite").show()
-            Toast.makeText(this,"Removed to favorite",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Removed from favorite",Toast.LENGTH_SHORT).show()
         } catch (e: SQLiteConstraintException){
 //            swipeRefresh.snackbar(e.localizedMessage).show()
             Toast.makeText(this,e.localizedMessage,Toast.LENGTH_SHORT).show()
