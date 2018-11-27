@@ -3,9 +3,9 @@ package com.lukmannudin.assosiate.footballclubschedule
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.lukmannudin.assosiate.footballclubschedule.TeamMatchView.FavoriteTeamsFragment
-import com.lukmannudin.assosiate.footballclubschedule.TeamMatchView.TeamsFragment
 import com.lukmannudin.assosiate.footballclubschedule.R.id.*
-import com.lukmannudin.assosiate.footballclubschedule.navigation_view.FragmentNext
+import com.lukmannudin.assosiate.footballclubschedule.TeamMatchView.LastMatchFragment
+import com.lukmannudin.assosiate.footballclubschedule.navigation_view.NavigationMain
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
@@ -16,11 +16,11 @@ class HomeActivity : AppCompatActivity() {
 
         bottom_navigation.setOnNavigationItemSelectedListener {item ->
             when (item.itemId){
+                matches -> {
+                    loadMatchesFragment(savedInstanceState)
+                }
                 teams -> {
                     loadTeamsFragment(savedInstanceState)
-                }
-                nextMatch -> {
-                    loadNextMatchFragment(savedInstanceState)
                 }
                 favorites -> {
                     loadFavoritesFragment(savedInstanceState)
@@ -31,11 +31,21 @@ class HomeActivity : AppCompatActivity() {
         bottom_navigation.selectedItemId = teams
     }
 
+    private fun loadMatchesFragment(savedInstanceState: Bundle?){
+        if (savedInstanceState == null){
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.main_container,
+                    NavigationMain(), NavigationMain::class.java.simpleName)
+                .commit()
+        }
+    }
+
     private fun loadTeamsFragment(savedInstanceState: Bundle?){
         if(savedInstanceState == null){
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.main_container, TeamsFragment(), TeamsFragment::class.java.simpleName)
+                .replace(R.id.main_container, LastMatchFragment(), LastMatchFragment::class.java.simpleName)
                 .commit()
         }
     }
@@ -49,13 +59,5 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadNextMatchFragment(savedInstanceState: Bundle?){
-        if (savedInstanceState == null){
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.main_container,
-                    FragmentNext(), FragmentNext::class.java.simpleName)
-                .commit()
-        }
-    }
+
 }

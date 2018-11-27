@@ -16,4 +16,5 @@
     <string name="vs">VS</string>
     <string name="todayMatch">Previous Match</string>
     <string name="nextMatch">Next Match</string>
+    <string name="matches">Matches</string>
 </resources>

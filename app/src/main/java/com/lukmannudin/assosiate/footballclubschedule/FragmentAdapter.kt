@@ -3,15 +3,15 @@ package com.lukmannudin.assosiate.footballclubschedule
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.lukmannudin.assosiate.footballclubschedule.TeamMatchView.TeamsFragment
-import com.lukmannudin.assosiate.footballclubschedule.navigation_view.FragmentLast
+import com.lukmannudin.assosiate.footballclubschedule.TeamMatchView.LastMatchFragment
+import com.lukmannudin.assosiate.footballclubschedule.TeamMatchView.NextMatchFragment
 
-class FragmentAdapter(fm: FragmentManager): FragmentPagerAdapter(fm){
+class FragmentAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     // sebuah list yang menampung objek Fragment
     private val pages: List<Fragment> = listOf(
-        FragmentLast(),
-        TeamsFragment()
+        LastMatchFragment(),
+        NextMatchFragment()
     )
 
     //menentukan fragment yang akan dibuka pada posisi tertentu
@@ -25,11 +25,10 @@ class FragmentAdapter(fm: FragmentManager): FragmentPagerAdapter(fm){
 
     override fun getPageTitle(position: Int): CharSequence? {
 //        return super.getPageTitle(position)
-        return when(position){
+        return when (position) {
             0 -> "LAST MATCH"
-            1 -> "NEXT MATCH"
-             else -> {
-                "FAVORITES"
+            else -> {
+                "NEXT MATCH"
             }
         }
     }

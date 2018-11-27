@@ -35,7 +35,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  *
  */
-class TeamsFragment : Fragment(), ScheduleContract {
+class LastMatchFragment : Fragment(), ScheduleContract {
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -140,7 +140,7 @@ class TeamsFragment : Fragment(), ScheduleContract {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            TeamsFragment().apply {
+            LastMatchFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
