@@ -9,7 +9,6 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.support.v7.widget.RecyclerView
-import com.lukmannudin.assosiate.footballclubschedule.Fragment.TeamsFragment
 import com.lukmannudin.assosiate.footballclubschedule.R.id.club_list
 import org.junit.Rule
 import org.junit.Test

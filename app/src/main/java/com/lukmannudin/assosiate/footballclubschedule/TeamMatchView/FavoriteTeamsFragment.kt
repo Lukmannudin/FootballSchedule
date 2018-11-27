@@ -1,4 +1,4 @@
-package com.lukmannudin.assosiate.footballclubschedule.Fragment
+package com.lukmannudin.assosiate.footballclubschedule.TeamMatchView
 
 import android.content.Context
 import android.net.Uri

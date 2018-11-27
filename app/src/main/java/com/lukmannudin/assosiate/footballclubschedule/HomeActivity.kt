@@ -2,10 +2,10 @@ package com.lukmannudin.assosiate.footballclubschedule
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.lukmannudin.assosiate.footballclubschedule.Fragment.FavoriteTeamsFragment
-import com.lukmannudin.assosiate.footballclubschedule.Fragment.NextMatchFragment
-import com.lukmannudin.assosiate.footballclubschedule.Fragment.TeamsFragment
+import com.lukmannudin.assosiate.footballclubschedule.TeamMatchView.FavoriteTeamsFragment
+import com.lukmannudin.assosiate.footballclubschedule.TeamMatchView.TeamsFragment
 import com.lukmannudin.assosiate.footballclubschedule.R.id.*
+import com.lukmannudin.assosiate.footballclubschedule.navigation_view.FragmentNext
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
@@ -53,7 +53,8 @@ class HomeActivity : AppCompatActivity() {
         if (savedInstanceState == null){
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.main_container, NextMatchFragment(), NextMatchFragment::class.java.simpleName)
+                .replace(R.id.main_container,
+                    FragmentNext(), FragmentNext::class.java.simpleName)
                 .commit()
         }
     }
