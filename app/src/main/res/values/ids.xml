@@ -6,4 +6,7 @@
     <item name="tAway" type="id"/>
     <item name="tHomeScoring" type="id"/>
     <item name="tAwayScoring" type="id"/>
+    <item name="team_badge" type="id"/>
+    <item name="team_name" type="id"/>
+    <item name="spinner" type="id" />
 </resources>

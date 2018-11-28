@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import com.lukmannudin.assosiate.footballclubschedule.TeamMatchView.FavoriteTeamsFragment
 import com.lukmannudin.assosiate.footballclubschedule.R.id.*
 import com.lukmannudin.assosiate.footballclubschedule.TeamMatchView.LastMatchFragment
+import com.lukmannudin.assosiate.footballclubschedule.TeamsView.TeamsFragment
 import com.lukmannudin.assosiate.footballclubschedule.navigation_view.NavigationMain
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -45,7 +46,7 @@ class HomeActivity : AppCompatActivity() {
         if(savedInstanceState == null){
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.main_container, LastMatchFragment(), LastMatchFragment::class.java.simpleName)
+                .replace(R.id.main_container, TeamsFragment(), TeamsFragment::class.java.simpleName)
                 .commit()
         }
     }
