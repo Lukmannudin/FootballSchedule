@@ -24,4 +24,5 @@
     <string name="todayMatch">Previous Match</string>
     <string name="nextMatch">Next Match</string>
     <string name="matches">Matches</string>
+    <string name="todo">TODO</string>
 </resources>

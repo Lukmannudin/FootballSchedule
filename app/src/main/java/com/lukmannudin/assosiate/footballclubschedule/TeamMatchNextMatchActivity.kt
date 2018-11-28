@@ -10,10 +10,10 @@ import android.widget.Toast
 import com.google.gson.Gson
 import com.lukmannudin.assosiate.footballclub.database.database
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
-import com.lukmannudin.assosiate.footballclubschedule.Contract.TeamDetailContract
+import com.lukmannudin.assosiate.footballclubschedule.Contract.TeamMatchDetailContract
 import com.lukmannudin.assosiate.footballclubschedule.Model.Team
 import com.lukmannudin.assosiate.footballclubschedule.Model.TeamDetail
-import com.lukmannudin.assosiate.footballclubschedule.Presenter.TeamDetailPresenter
+import com.lukmannudin.assosiate.footballclubschedule.Presenter.TeamMatchDetailPresenter
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.team_detail_layout.*
 import org.jetbrains.anko.db.classParser
@@ -21,9 +21,9 @@ import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 
-class TeamNextMatchActivity : AppCompatActivity(), TeamDetailContract{
+class TeamMatchNextMatchActivity : AppCompatActivity(), TeamMatchDetailContract{
 
-    private lateinit var presenter: TeamDetailPresenter
+    private lateinit var presenterMatch: TeamMatchDetailPresenter
     private var teamDetails: MutableList<TeamDetail> = mutableListOf()
     private var menuItem: Menu? = null
     private var isFavorite: Boolean = false
@@ -52,9 +52,9 @@ class TeamNextMatchActivity : AppCompatActivity(), TeamDetailContract{
         dateEventSchedule.text = dateEvent
         val request = ApiRepository()
         val gson = Gson()
-        presenter = TeamDetailPresenter(this, request, gson)
-        presenter.getHomeTeamDetailList(homeId)
-        presenter.getAwayTeamDetailList(awayId)
+        presenterMatch = TeamMatchDetailPresenter(this, request, gson)
+        presenterMatch.getHomeTeamDetailList(homeId)
+        presenterMatch.getAwayTeamDetailList(awayId)
     }
 
     override fun showLoading() {

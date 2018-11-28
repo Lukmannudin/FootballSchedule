@@ -1,11 +1,10 @@
 package com.lukmannudin.assosiate.footballclubschedule.Contract
 
-import com.lukmannudin.assosiate.footballclubschedule.Model.TeamDetail
+import com.lukmannudin.assosiate.footballclubschedule.Model.Teams
+
 
 interface TeamDetailContract {
     fun showLoading()
     fun hideLoading()
-    fun showHomeTeamDetailList(data: List<TeamDetail>)
-    fun showAwayTeamDetailList(data: List<TeamDetail>)
-
+    fun showDetailTeam(data: List<Teams>)
 }

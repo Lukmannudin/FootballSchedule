@@ -14,7 +14,7 @@ import com.lukmannudin.assosiate.footballclubschedule.Contract.ScheduleContract
 import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.SchedulePresenter
 import com.lukmannudin.assosiate.footballclubschedule.R
-import com.lukmannudin.assosiate.footballclubschedule.TeamListActivity
+import com.lukmannudin.assosiate.footballclubschedule.TeamMatchListActivity
 import com.lukmannudin.assosiate.footballclubschedule.invisible
 import com.lukmannudin.assosiate.footballclubschedule.visible
 import kotlinx.android.synthetic.main.fragment_first.view.*
@@ -88,7 +88,7 @@ class LastMatchFragment : Fragment(), ScheduleContract {
     }
 
     private fun partItemClicked(Schedules: Schedule) {
-        startActivity<TeamListActivity>(
+        startActivity<TeamMatchListActivity>(
             "parcel" to Schedules
             )
     }

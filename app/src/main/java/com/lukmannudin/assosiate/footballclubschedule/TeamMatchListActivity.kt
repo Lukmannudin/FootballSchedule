@@ -12,10 +12,10 @@ import android.widget.Toast
 import com.google.gson.Gson
 import com.lukmannudin.assosiate.footballclub.database.database
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
-import com.lukmannudin.assosiate.footballclubschedule.Contract.TeamDetailContract
+import com.lukmannudin.assosiate.footballclubschedule.Contract.TeamMatchDetailContract
 import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
 import com.lukmannudin.assosiate.footballclubschedule.Model.TeamDetail
-import com.lukmannudin.assosiate.footballclubschedule.Presenter.TeamDetailPresenter
+import com.lukmannudin.assosiate.footballclubschedule.Presenter.TeamMatchDetailPresenter
 import com.lukmannudin.assosiate.footballclubschedule.R.drawable.ic_add_to_favorites
 import com.lukmannudin.assosiate.footballclubschedule.R.drawable.ic_added_to_favorites
 import com.lukmannudin.assosiate.footballclubschedule.R.id.add_to_favorite
@@ -28,9 +28,9 @@ import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 
 
-class TeamListActivity : AppCompatActivity(), TeamDetailContract {
+class TeamMatchListActivity : AppCompatActivity(), TeamMatchDetailContract {
     private var teamDetails: MutableList<TeamDetail> = mutableListOf()
-    lateinit var presenter: TeamDetailPresenter
+    lateinit var presenterMatch: TeamMatchDetailPresenter
     private lateinit var IntentData: Schedule
     private var menuItem: Menu? = null
     private var isFavorite: Boolean = false
@@ -59,9 +59,9 @@ class TeamListActivity : AppCompatActivity(), TeamDetailContract {
         favoriteState()
         val request = ApiRepository()
         val gson = Gson()
-        presenter = TeamDetailPresenter(this, request, gson)
-        presenter.getHomeTeamDetailList(IntentData.idHomeTeam)
-        presenter.getAwayTeamDetailList(IntentData.idAwayTeam)
+        presenterMatch = TeamMatchDetailPresenter(this, request, gson)
+        presenterMatch.getHomeTeamDetailList(IntentData.idHomeTeam)
+        presenterMatch.getAwayTeamDetailList(IntentData.idAwayTeam)
 
     }
 

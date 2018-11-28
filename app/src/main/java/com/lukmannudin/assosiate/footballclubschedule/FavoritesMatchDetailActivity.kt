@@ -3,7 +3,6 @@ package com.lukmannudin.assosiate.footballclubschedule
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -12,23 +11,20 @@ import com.google.gson.Gson
 import com.lukmannudin.assosiate.footballclub.database.database
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
 import com.lukmannudin.assosiate.footballclubschedule.Contract.ScheduleContract
-import com.lukmannudin.assosiate.footballclubschedule.Contract.TeamDetailContract
+import com.lukmannudin.assosiate.footballclubschedule.Contract.TeamMatchDetailContract
 import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
 import com.lukmannudin.assosiate.footballclubschedule.Model.TeamDetail
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.SchedulePresenter
-import com.lukmannudin.assosiate.footballclubschedule.Presenter.TeamDetailPresenter
+import com.lukmannudin.assosiate.footballclubschedule.Presenter.TeamMatchDetailPresenter
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_first.*
-import kotlinx.android.synthetic.main.fragment_first.view.*
-import kotlinx.android.synthetic.main.fragment_second.*
 import kotlinx.android.synthetic.main.team_detail_layout.*
 import org.jetbrains.anko.db.delete
 
 
-class FavoritesDetailActivity : AppCompatActivity(), TeamDetailContract, ScheduleContract {
+class FavoritesMatchDetailActivity : AppCompatActivity(), TeamMatchDetailContract, ScheduleContract {
 
     private var teamDetails: MutableList<TeamDetail> = mutableListOf()
-    lateinit var presenter: TeamDetailPresenter
+    lateinit var presenterMatch: TeamMatchDetailPresenter
     lateinit var favoriteDetailPresenter: SchedulePresenter
     lateinit var matchId: String
     private var menuItem: Menu? = null
@@ -51,9 +47,9 @@ class FavoritesDetailActivity : AppCompatActivity(), TeamDetailContract, Schedul
 
         val request = ApiRepository()
         val gson = Gson()
-        presenter = TeamDetailPresenter(this, request, gson)
-        presenter.getHomeTeamDetailList(homeTeamId)
-        presenter.getAwayTeamDetailList(awayTeamId)
+        presenterMatch = TeamMatchDetailPresenter(this, request, gson)
+        presenterMatch.getHomeTeamDetailList(homeTeamId)
+        presenterMatch.getAwayTeamDetailList(awayTeamId)
 
         favoriteDetailPresenter = SchedulePresenter(this,request,gson)
         favoriteDetailPresenter.getScheduleDetails(matchId)

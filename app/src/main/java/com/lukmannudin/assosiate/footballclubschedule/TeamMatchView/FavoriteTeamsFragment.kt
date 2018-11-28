@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import com.lukmannudin.assosiate.footballclub.database.database
 import com.lukmannudin.assosiate.footballclubschedule.Adapter.FavoritesAdapter
 import com.lukmannudin.assosiate.footballclubschedule.Favorite
-import com.lukmannudin.assosiate.footballclubschedule.FavoritesDetailActivity
+import com.lukmannudin.assosiate.footballclubschedule.FavoritesMatchDetailActivity
 import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
 import com.lukmannudin.assosiate.footballclubschedule.R.color.colorAccent
 import org.jetbrains.anko.*
@@ -78,7 +78,7 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
 
     private fun partItemClicked(Favorites: Favorite) {
         startActivity(
-            intentFor<FavoritesDetailActivity>(
+            intentFor<FavoritesMatchDetailActivity>(
                 "teamMatchEventId" to Favorites.teamMatchEventId,
                 "teamHomeId" to Favorites.teamHomeId,
                 "teamAwayId" to Favorites.teamAwayId,

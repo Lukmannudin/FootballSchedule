@@ -15,7 +15,7 @@ import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
 import com.lukmannudin.assosiate.footballclubschedule.Model.Team
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.ScheduleNextPresenter
 import com.lukmannudin.assosiate.footballclubschedule.R
-import com.lukmannudin.assosiate.footballclubschedule.TeamNextMatchActivity
+import com.lukmannudin.assosiate.footballclubschedule.TeamMatchNextMatchActivity
 import com.lukmannudin.assosiate.footballclubschedule.invisible
 import com.lukmannudin.assosiate.footballclubschedule.visible
 import kotlinx.android.synthetic.main.fragment_second.view.*
@@ -95,7 +95,7 @@ class NextMatchFragment : Fragment(), ScheduleContract {
     }
 
     private fun partItemClicked(Schedules: Schedule) {
-        startActivity<TeamNextMatchActivity>(
+        startActivity<TeamMatchNextMatchActivity>(
             Team.TEAM_MATCH_EVENT_ID to Schedules.idEvent,
             Team.TEAM_HOME_ID to Schedules.idHomeTeam,
             Team.TEAM_AWAY_ID to Schedules.idAwayTeam,

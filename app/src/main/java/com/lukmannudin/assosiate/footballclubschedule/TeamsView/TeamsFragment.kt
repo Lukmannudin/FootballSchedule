@@ -28,6 +28,7 @@ import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
 import com.lukmannudin.assosiate.footballclubschedule.R.id.spinner
 import com.lukmannudin.assosiate.footballclubschedule.R.array.league
+import com.lukmannudin.assosiate.footballclubschedule.TeamDetailActivity
 
 class TeamsFragment : Fragment(), AnkoComponent<Context>, TeamsContract {
     private var teams: MutableList<Teams> = mutableListOf()
@@ -107,7 +108,9 @@ class TeamsFragment : Fragment(), AnkoComponent<Context>, TeamsContract {
 
         adapter = TeamsAdapter(teams){
             //            Log.i("CEK","${it.teamId}")
-//            context?.startActivity<TeamDetailActivity>("id" to "${it.teamId}")
+            context?.startActivity<TeamDetailActivity>(
+                "id" to "${it.teamId}"
+            )
         }
         listTeam.adapter = adapter
 

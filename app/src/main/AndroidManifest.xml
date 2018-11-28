@@ -21,17 +21,21 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".TeamListActivity"
-                android:parentActivityName=".MainActivity">
+                android:name=".TeamMatchListActivity"
+                android:parentActivityName=".HomeActivity">
         </activity>
 
         <activity android:name=".MainActivity">
         </activity>
-        <activity android:name=".FavoritesDetailActivity"
-                android:parentActivityName=".MainActivity"
+        <activity android:name=".FavoritesMatchDetailActivity"
+                android:parentActivityName=".HomeActivity"
         >
         </activity>
-        <activity android:name=".TeamNextMatchActivity"/>
+        <activity android:name=".TeamMatchNextMatchActivity"/>
+        <activity
+                android:name=".TeamDetailActivity"
+                android:parentActivityName=".HomeActivity">
+        </activity>
     </application>
 
 </manifest>
