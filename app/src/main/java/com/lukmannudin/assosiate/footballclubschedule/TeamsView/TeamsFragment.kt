@@ -28,8 +28,13 @@ import org.jetbrains.anko.support.v4.swipeRefreshLayout
 import com.lukmannudin.assosiate.footballclubschedule.R.array.league
 import com.lukmannudin.assosiate.footballclubschedule.TeamDetailActivity
 import com.lukmannudin.assosiate.footballclubschedule.TeamUtils
+import kotlinx.android.synthetic.main.team_list.*
 
 class TeamsFragment : Fragment(), AnkoComponent<Context>, TeamsContract {
+    override fun createView(ui: AnkoContext<Context>): View {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     private var teams: MutableList<Teams> = mutableListOf()
     private lateinit var presenter: TeamsPresenter
     private lateinit var adapter: TeamsAdapter
@@ -39,48 +44,48 @@ class TeamsFragment : Fragment(), AnkoComponent<Context>, TeamsContract {
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var leagueName: String
 
-    override fun createView(ui: AnkoContext<Context>): View = with(ui){
-        linearLayout {
-            lparams (width = matchParent, height = wrapContent)
-            orientation = LinearLayout.VERTICAL
-            topPadding = dip(16)
-            leftPadding = dip(16)
-            rightPadding = dip(16)
-
-            spinner = spinner()
-            swipeRefresh = swipeRefreshLayout {
-                setColorSchemeResources(colorAccent,
-                    android.R.color.holo_green_light,
-                    android.R.color.holo_orange_light,
-                    android.R.color.holo_red_light)
-
-                relativeLayout{
-                    lparams (width = matchParent, height = wrapContent)
-
-                    listTeam = recyclerView {
-                        lparams (width = matchParent, height = wrapContent)
-                        layoutManager = LinearLayoutManager(ctx)
-                    }
-
-                    progressBar = progressBar {
-                    }.lparams{
-                        centerHorizontally()
-                    }
-                }
-            }
-        }
-    }
+//    override fun createView(ui: AnkoContext<Context>): View = with(ui){
+//        linearLayout {
+//            lparams (width = matchParent, height = wrapContent)
+//            orientation = LinearLayout.VERTICAL
+//            topPadding = dip(16)
+//            leftPadding = dip(16)
+//            rightPadding = dip(16)
+//
+//            spinner = spinner()
+//            swipeRefresh = swipeRefreshLayout {
+//                setColorSchemeResources(colorAccent,
+//                    android.R.color.holo_green_light,
+//                    android.R.color.holo_orange_light,
+//                    android.R.color.holo_red_light)
+//
+//                relativeLayout{
+//                    lparams (width = matchParent, height = wrapContent)
+//
+//                    listTeam = recyclerView {
+//                        lparams (width = matchParent, height = wrapContent)
+//                        layoutManager = LinearLayoutManager(ctx)
+//                    }
+//
+//                    progressBar = progressBar {
+//                    }.lparams{
+//                        centerHorizontally()
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     override fun showLoading() {
-        progressBar.visible()
+        pbTeam.visible()
     }
 
     override fun hideLoading() {
-        progressBar.invisible()
+        pbTeam.invisible()
     }
 
     override fun showTeamList(data: List<Teams>) {
-        swipeRefresh.isRefreshing = false
+        srlTeam.isRefreshing = false
         teams.clear()
         teams.addAll(data)
         adapter.notifyDataSetChanged()
@@ -93,38 +98,43 @@ class TeamsFragment : Fragment(), AnkoComponent<Context>, TeamsContract {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return createView(AnkoContext.create(requireContext()))
+//        return createView(AnkoContext.create(requireContext()))
+        val view =  inflater.inflate(com.lukmannudin.assosiate.footballclubschedule.R.layout.team_list, container, false)
+
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val spinnerItems = resources.getStringArray(league)
         val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.simple_spinner_dropdown_item, spinnerItems)
-        spinner.adapter = spinnerAdapter
+        sTeam.adapter = spinnerAdapter
 
         adapter = TeamsAdapter(teams){
            context?.startActivity<TeamDetailActivity>(
                 TeamUtils.TEAM_INTENT to it
             )
         }
-        listTeam.adapter = adapter
+        rvTeam.layoutManager = LinearLayoutManager(activity)
+        rvTeam.adapter = adapter
 
         val request = ApiRepository()
         val gson = Gson()
         presenter = TeamsPresenter(this, request, gson)
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        sTeam.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                leagueName = spinner.selectedItem.toString()
+                leagueName = sTeam.selectedItem.toString()
                 presenter.getTeamList(leagueName)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-        swipeRefresh.onRefresh {
+        srlTeam.onRefresh {
             presenter.getTeamList(leagueName)
         }
     }
