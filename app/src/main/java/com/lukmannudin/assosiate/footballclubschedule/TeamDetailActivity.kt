@@ -1,9 +1,13 @@
 package com.lukmannudin.assosiate.footballclubschedule
 
 import android.os.Bundle
+import android.support.design.widget.NavigationView
 import android.support.design.widget.TabLayout
+import android.support.v4.app.FragmentManager
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
+import android.text.TextUtils.replace
+import android.util.Log
 import android.view.Menu
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -13,7 +17,13 @@ import com.lukmannudin.assosiate.footballclubschedule.Contract.TeamDetailContrac
 import com.lukmannudin.assosiate.footballclubschedule.Model.Teams
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.TeamDetailPresenter
 import com.lukmannudin.assosiate.footballclubschedule.R.menu.detail_menu
+import com.lukmannudin.assosiate.footballclubschedule.TeamsView.OverviewTeamFragment
+import com.lukmannudin.assosiate.footballclubschedule.TeamsView.TeamsFragment
+import com.lukmannudin.assosiate.footballclubschedule.navigation_view.NavigationMain
+import com.lukmannudin.assosiate.footballclubschedule.navigation_view.NavigationTeam
 import kotlinx.android.synthetic.main.team_main.*
+import kotlinx.android.synthetic.main.team_main.view.*
+import kotlinx.android.synthetic.main.team_overview.*
 
 class TeamDetailActivity : AppCompatActivity(), TeamDetailContract {
 
@@ -41,15 +51,40 @@ class TeamDetailActivity : AppCompatActivity(), TeamDetailContract {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.team_main)
         val intent = intent
-        id = intent.getStringExtra("id")
-        supportActionBar?.title = "Team Detail"
+//        id = intent.getStringExtra("id")
+        supportActionBar?.title = "TeamUtils Detail"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        val intentData = intent.getParcelableExtra<Teams>(TeamUtils.TEAM_INTENT)
 
-
-        vpTeam.adapter = TeamFragmentAdapter(supportFragmentManager!!)
+        vpTeam.adapter = TeamFragmentAdapter(supportFragmentManager!!, intentData)
         tlTeam.setupWithViewPager(vpTeam)
 
+//        val kotlinFragment = NavigationTeam.newInstance(intentData)
+//        if(savedInstanceState == null){
+//            supportFragmentManager
+//                .beginTransaction()
+//                .replace(R.id.frameLayout, kotlinFragment, kotlinFragment::class.java.simpleName)
+//                .commit()
+//        }
 
+//        vpTeam.adapter = TeamFragmentAdapter(supportFragmentManager!!)
+//        tlTeam.setupWithViewPager(vpTeam)
+//        val mFragment = OverviewTeamFragment()
+//        val mArgs = Bundle()
+//        mArgs.putInt("Key",1)
+//        mFragment.arguments = mArgs
+
+
+//        val framg = OverviewTeamFragment()
+//        var bundle:Bundle? =null
+//                bundle?.putString("hai","hancur")
+//        framg.arguments = bundle
+//
+//        val arguments = Bundle()
+//        arguments.putInt("VALUE1",1)
+//        val fragm = NavigationTeam()
+//        fragm.arguments = bundle
+//        Log.i("INI","YES")
 //        linearLayout {
 //            lparams(width = matchParent, height = wrapContent)
 //            orientation = LinearLayout.VERTICAL

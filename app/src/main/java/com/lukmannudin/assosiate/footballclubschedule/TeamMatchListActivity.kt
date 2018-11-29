@@ -46,7 +46,7 @@ class TeamMatchListActivity : AppCompatActivity(), TeamMatchDetailContract {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_test)
         setContentView(R.layout.team_detail_layout)
-        supportActionBar?.title = "Team Detail"
+        supportActionBar?.title = "TeamUtils Detail"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 

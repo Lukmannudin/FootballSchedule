@@ -3,14 +3,15 @@ package com.lukmannudin.assosiate.footballclubschedule.Adapter
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.lukmannudin.assosiate.footballclubschedule.TeamMatchView.LastMatchFragment
+import com.lukmannudin.assosiate.footballclubschedule.Model.Teams
 import com.lukmannudin.assosiate.footballclubschedule.TeamMatchView.NextMatchFragment
+import com.lukmannudin.assosiate.footballclubschedule.TeamsView.OverviewTeamFragment
 
-class TeamFragmentAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class TeamFragmentAdapter(fm: FragmentManager, dataTeam: Teams) : FragmentPagerAdapter(fm) {
 
     // sebuah list yang menampung objek Fragment
     private val pages: List<Fragment> = listOf(
-        LastMatchFragment(),
+        OverviewTeamFragment.newInstance(dataTeam),
         NextMatchFragment()
     )
 

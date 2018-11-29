@@ -23,7 +23,7 @@ class NavigationMain : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vpSchedule.adapter = FragmentAdapter(childFragmentManager!!)
+        vpSchedule.adapter = FragmentAdapter(childFragmentManager)
         tlSchedule.setupWithViewPager(vpSchedule)
     }
 }

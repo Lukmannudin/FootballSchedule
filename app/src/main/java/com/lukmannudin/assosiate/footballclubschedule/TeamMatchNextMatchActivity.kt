@@ -11,7 +11,6 @@ import com.google.gson.Gson
 import com.lukmannudin.assosiate.footballclub.database.database
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
 import com.lukmannudin.assosiate.footballclubschedule.Contract.TeamMatchDetailContract
-import com.lukmannudin.assosiate.footballclubschedule.Model.Team
 import com.lukmannudin.assosiate.footballclubschedule.Model.TeamDetail
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.TeamMatchDetailPresenter
 import com.squareup.picasso.Picasso
@@ -40,12 +39,12 @@ class TeamMatchNextMatchActivity : AppCompatActivity(), TeamMatchDetailContract{
         supportActionBar?.title = "Next Match Schedule"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        eventId = intent.getStringExtra(Team.TEAM_MATCH_EVENT_ID)
-        homeId = intent.getStringExtra(Team.TEAM_HOME_ID)
-        awayId = intent.getStringExtra(Team.TEAM_AWAY_ID)
-        dateEvent = intent.getStringExtra(Team.TEAM_MATCH_EVENT_DATE)
-        homeTeamName = intent.getStringExtra(Team.TEAM_HOME_NAME)
-        awayTeamName = intent.getStringExtra(Team.TEAM_AWAY_NAME)
+        eventId = intent.getStringExtra(TeamUtils.TEAM_MATCH_EVENT_ID)
+        homeId = intent.getStringExtra(TeamUtils.TEAM_HOME_ID)
+        awayId = intent.getStringExtra(TeamUtils.TEAM_AWAY_ID)
+        dateEvent = intent.getStringExtra(TeamUtils.TEAM_MATCH_EVENT_DATE)
+        homeTeamName = intent.getStringExtra(TeamUtils.TEAM_HOME_NAME)
+        awayTeamName = intent.getStringExtra(TeamUtils.TEAM_AWAY_NAME)
 
         favoriteState()
 

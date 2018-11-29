@@ -17,7 +17,6 @@ import com.google.gson.Gson
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
 import com.lukmannudin.assosiate.footballclubschedule.Adapter.TeamsAdapter
 import com.lukmannudin.assosiate.footballclubschedule.Contract.TeamsContract
-import com.lukmannudin.assosiate.footballclubschedule.Model.Team
 import com.lukmannudin.assosiate.footballclubschedule.Model.Teams
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.TeamsPresenter
 import com.lukmannudin.assosiate.footballclubschedule.invisible
@@ -26,9 +25,9 @@ import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
-import com.lukmannudin.assosiate.footballclubschedule.R.id.spinner
 import com.lukmannudin.assosiate.footballclubschedule.R.array.league
 import com.lukmannudin.assosiate.footballclubschedule.TeamDetailActivity
+import com.lukmannudin.assosiate.footballclubschedule.TeamUtils
 
 class TeamsFragment : Fragment(), AnkoComponent<Context>, TeamsContract {
     private var teams: MutableList<Teams> = mutableListOf()
@@ -107,9 +106,8 @@ class TeamsFragment : Fragment(), AnkoComponent<Context>, TeamsContract {
         spinner.adapter = spinnerAdapter
 
         adapter = TeamsAdapter(teams){
-            //            Log.i("CEK","${it.teamId}")
-            context?.startActivity<TeamDetailActivity>(
-                "id" to "${it.teamId}"
+           context?.startActivity<TeamDetailActivity>(
+                TeamUtils.TEAM_INTENT to it
             )
         }
         listTeam.adapter = adapter

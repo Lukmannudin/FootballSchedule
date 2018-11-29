@@ -4,7 +4,7 @@ import org.junit.Test
 
 import org.junit.Assert.*
 
-class TeamMatchDetailPresenterTest {
+class TeamUtilsMatchDetailPresenterTest {
 
     @Test
     fun getHomeTeamDetailList() {

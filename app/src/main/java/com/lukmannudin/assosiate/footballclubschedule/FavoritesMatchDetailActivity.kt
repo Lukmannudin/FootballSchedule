@@ -35,7 +35,7 @@ class FavoritesMatchDetailActivity : AppCompatActivity(), TeamMatchDetailContrac
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.team_detail_layout)
-        supportActionBar?.title = "Team Detail"
+        supportActionBar?.title = "TeamUtils Detail"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
