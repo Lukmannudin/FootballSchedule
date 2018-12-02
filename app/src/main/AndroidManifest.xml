@@ -22,26 +22,17 @@
         </activity>
         <activity
                 android:name=".TeamMatchListActivity"
+                android:parentActivityName=".HomeActivity"/>
+        <activity android:name=".MainActivity"/>
+        <activity
+                android:name=".FavoritesMatchDetailActivity"
                 android:parentActivityName=".HomeActivity">
-        </activity>
-
-        <activity android:name=".MainActivity">
-        </activity>
-        <activity android:name=".FavoritesMatchDetailActivity"
-                android:parentActivityName=".HomeActivity"
-        >
         </activity>
         <activity android:name=".TeamMatchNextMatchActivity"/>
         <activity
                 android:name=".TeamDetailActivity"
-                android:parentActivityName=".HomeActivity">
-        </activity>
-        <provider
-                android:name="br.com.mauker.materialsearchview.db.HistoryProvider"
-                android:authorities="br.com.mauker.materialsearchview.searchhistorydatabase"
-                android:exported="false"
-                android:protectionLevel="signature"
-                android:syncable="true"/>
+                android:parentActivityName=".HomeActivity"/>
+        <activity android:name=".TeamPlayerActivity"/>
     </application>
 
 </manifest>

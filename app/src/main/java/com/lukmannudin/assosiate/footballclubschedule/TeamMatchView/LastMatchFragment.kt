@@ -7,17 +7,17 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import com.google.gson.Gson
+import com.lukmannudin.assosiate.footballclubschedule.*
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
 import com.lukmannudin.assosiate.footballclubschedule.Adapter.ScheduleAdapter
 import com.lukmannudin.assosiate.footballclubschedule.Contract.ScheduleContract
 import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.SchedulePresenter
-import com.lukmannudin.assosiate.footballclubschedule.R
-import com.lukmannudin.assosiate.footballclubschedule.TeamMatchListActivity
-import com.lukmannudin.assosiate.footballclubschedule.invisible
-import com.lukmannudin.assosiate.footballclubschedule.visible
-import kotlinx.android.synthetic.main.fragment_first.view.*
+import kotlinx.android.synthetic.main.match_fragment.*
+import kotlinx.android.synthetic.main.match_fragment.view.*
 import org.jetbrains.anko.support.v4.startActivity
 
 
@@ -43,7 +43,9 @@ class LastMatchFragment : Fragment(), ScheduleContract {
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var adapter: ScheduleAdapter
     private var schedules: MutableList<Schedule> = mutableListOf()
-
+    private lateinit var leagueName: String
+    private lateinit var leagueID: String
+    private lateinit var presenter: SchedulePresenter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,9 +55,6 @@ class LastMatchFragment : Fragment(), ScheduleContract {
             param2 = it.getString(ARG_PARAM2)
         }
 
-//        club_list.adapter = adapter
-
-//        APIScheduleTeam.getSchedules("English Premier League")
     }
 
     override fun onCreateView(
@@ -63,23 +62,60 @@ class LastMatchFragment : Fragment(), ScheduleContract {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_first, container, false)
+        val view = inflater.inflate(R.layout.match_fragment, container, false)
 
-        lateinit var presenter: SchedulePresenter
-        val request = ApiRepository()
-        val gson = Gson()
 
-        presenter = SchedulePresenter(this, request, gson)
-        presenter.getScheduleList("")
-        view.swiperefresh.isRefreshing = false
-        view.swiperefresh.setOnRefreshListener {
-            presenter.getScheduleList("")
-        }
 
         return view
 
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val spinnerItems = resources.getStringArray(R.array.league)
+        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, spinnerItems)
+        sLastMatch.adapter = spinnerAdapter
+
+
+        val request = ApiRepository()
+        val gson = Gson()
+        presenter = SchedulePresenter(this, request, gson)
+       sLastMatch.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                leagueName = sLastMatch.selectedItem.toString()
+                when (leagueName) {
+                    Utils.ENGLISH_PREMIER_LEAGUE_NAME -> {
+                        leagueID = Utils.ENGLISH_PREMIER_LEAGUE_ID
+                    }
+                    Utils.ENGLISH_LEAGUE_CHAMPIONSHIP_NAME -> {
+                        leagueID = Utils.ENGLISH_LEAGUE_CHAMPIONSHIP_ID
+                    }
+                    Utils.FRENCH_LIGUE_1_NAME -> {
+                        leagueID = Utils.FRENCH_LIGUE_1_ID
+                    }
+                    Utils.GERMAN_BUNDESLIGA_NAME -> {
+                        leagueID = Utils.GERMAN_BUNDESLIGA_ID
+                    }
+                    Utils.ITALIAN_SERIE_A_NAME -> {
+                        leagueID = Utils.ITALIAN_SERIE_A_ID
+                    }
+                    Utils.SPANISH_LA_LIGA_NAME -> {
+                        leagueID = Utils.SPANISH_LA_LIGA_ID
+                    }
+
+                }
+                presenter.getScheduleList(leagueID)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
+
+        swiperefresh.isRefreshing = false
+        swiperefresh.setOnRefreshListener {
+            presenter.getScheduleList(leagueID)
+        }
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.club_list.layoutManager = LinearLayoutManager(view.context)
@@ -163,6 +199,7 @@ class LastMatchFragment : Fragment(), ScheduleContract {
         schedules.addAll(data)
         adapter.notifyDataSetChanged()
     }
+
 
 
 }
