@@ -1,32 +1,32 @@
 package com.lukmannudin.assosiate.footballclubschedule.Favorites
 
 import android.content.Context
+import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.lukmannudin.assosiate.footballclub.database.database
-import com.lukmannudin.assosiate.footballclubschedule.Adapter.FavoritesAdapter
 import com.lukmannudin.assosiate.footballclubschedule.Adapter.FavoritesTeamAdapter
-import com.lukmannudin.assosiate.footballclubschedule.Adapter.TeamsAdapter
 import com.lukmannudin.assosiate.footballclubschedule.Favorite
 import com.lukmannudin.assosiate.footballclubschedule.FavoriteTeam
-import com.lukmannudin.assosiate.footballclubschedule.FavoritesMatchDetailActivity
-import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
 import com.lukmannudin.assosiate.footballclubschedule.Model.Teams
 import com.lukmannudin.assosiate.footballclubschedule.R
 import org.jetbrains.anko.*
 import org.jetbrains.anko.db.classParser
+import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.recyclerview.v7.recyclerView
-import org.jetbrains.anko.support.v4.intentFor
 import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
+import java.nio.file.Files.delete
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -62,6 +62,10 @@ class FavoritesFavorite : Fragment(), AnkoComponent<Context> {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        showFavorite()
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -72,22 +76,26 @@ class FavoritesFavorite : Fragment(), AnkoComponent<Context> {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun partItemClicked(favoriteTeam: FavoriteTeam) {
+        removeFromFavorite(favoriteTeam.teamId)
         showFavorite()
     }
 
-    private fun partItemClicked(favoriteTeam: FavoriteTeam) {
-//        startActivity(
-//            intentFor<FavoritesMatchDetailActivity>(
-//                "teamMatchEventId" to Favorites.teamMatchEventId,
-//                "teamHomeId" to Favorites.teamHomeId,
-//                "teamAwayId" to Favorites.teamAwayId,
-//                "eventMatchDate" to Favorites.teamMatchEventDate
-//            )
-//        )
+    private fun removeFromFavorite(teamId:String){
+        try {
+            context?.database?.use {
+                delete(Favorite.TABLE_TEAM_FAVORITE,
+                    "(TEAM_ID = {teamId})",
+                    "teamId" to teamId
+                )
+            }
+//            swipeRefresh.snackbar("Removed to favorite").show()
+            Toast.makeText(context,"Removed from favorite",Toast.LENGTH_SHORT).show()
+        } catch (e: SQLiteConstraintException){
+//            swipeRefresh.snackbar(e.localizedMessage).show()
+            Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
+        }
     }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return createView(AnkoContext.create(requireContext()))

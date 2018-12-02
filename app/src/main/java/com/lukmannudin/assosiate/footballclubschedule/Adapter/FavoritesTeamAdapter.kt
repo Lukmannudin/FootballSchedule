@@ -1,23 +1,19 @@
 package com.lukmannudin.assosiate.footballclubschedule.Adapter
 
+import android.media.Image
 import android.support.v7.widget.RecyclerView
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.lukmannudin.assosiate.footballclubschedule.FavoriteTeam
-import com.lukmannudin.assosiate.footballclubschedule.Model.Teams
 import com.lukmannudin.assosiate.footballclubschedule.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.favorite_team.view.*
-import kotlinx.android.synthetic.main.team_view.view.*
-import org.jetbrains.anko.*
 
 class FavoritesTeamAdapter(private val favoriteTeam: List<FavoriteTeam>, private val listener: (FavoriteTeam) -> Unit) :
-RecyclerView.Adapter<FavoritesTeamsViewHolder>() {
+    RecyclerView.Adapter<FavoritesTeamsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesTeamsViewHolder {
 
@@ -44,10 +40,12 @@ class FavoritesTeamsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private val teamImage: ImageView = view.imgTeamFavorite
     private val teamName: TextView = view.tvTeamNameFavorite
+    private val btnDelet: ImageView = view.deleteBtn
 
     fun bindItem(favoriteTeam: FavoriteTeam, listener: (FavoriteTeam) -> Unit) {
         Picasso.get().load(favoriteTeam.teamBadge).into(teamImage)
         teamName.text = favoriteTeam.teamName
-        itemView.setOnClickListener { listener(favoriteTeam) }
+        btnDelet.setOnClickListener { listener(favoriteTeam) }
+//        itemView.setOnClickListener { listener(favoriteTeam) }
     }
 }
