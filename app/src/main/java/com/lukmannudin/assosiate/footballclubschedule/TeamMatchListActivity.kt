@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ProgressBar
@@ -176,9 +177,13 @@ class TeamMatchListActivity : AppCompatActivity(), TeamMatchDetailContract {
             val result = select(Favorite.TABLE_FAVORITE)
                 .whereArgs("(TEAM_MATCH_EVENT_ID = {eventId})",
                     "eventId" to teamMatchEventId)
-            println("INI EVENT"+teamMatchEventId)
+
             val favorite = result.parseList(classParser<Favorite>())
-            if (!favorite.isEmpty()) isFavorite = true
+
+            if (!favorite.isEmpty()){
+                Log.i("CEK","AYAAN")
+                isFavorite = true
+            }
         }
     }
 }

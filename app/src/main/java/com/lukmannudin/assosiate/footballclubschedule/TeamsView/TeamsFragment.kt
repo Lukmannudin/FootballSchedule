@@ -42,38 +42,6 @@ class TeamsFragment : Fragment(), TeamsContract {
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private var leagueName: String = "English Premier League"
 
-//    override fun createView(ui: AnkoContext<Context>): View = with(ui){
-//        linearLayout {
-//            lparams (width = matchParent, height = wrapContent)
-//            orientation = LinearLayout.VERTICAL
-//            topPadding = dip(16)
-//            leftPadding = dip(16)
-//            rightPadding = dip(16)
-//
-//            spinner = spinner()
-//            swipeRefresh = swipeRefreshLayout {
-//                setColorSchemeResources(colorAccent,
-//                    android.R.color.holo_green_light,
-//                    android.R.color.holo_orange_light,
-//                    android.R.color.holo_red_light)
-//
-//                relativeLayout{
-//                    lparams (width = matchParent, height = wrapContent)
-//
-//                    listTeam = recyclerView {
-//                        lparams (width = matchParent, height = wrapContent)
-//                        layoutManager = LinearLayoutManager(ctx)
-//                    }
-//
-//                    progressBar = progressBar {
-//                    }.lparams{
-//                        centerHorizontally()
-//                    }
-//                }
-//            }
-//        }
-//    }
-
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null

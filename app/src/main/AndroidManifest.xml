@@ -35,8 +35,9 @@
         <activity android:name=".TeamPlayerActivity"/>
         <activity
                 android:name=".PlayerDetailActivity"
-            android:parentActivityName=".HomeActivity"
-        >
+                android:parentActivityName=".HomeActivity">
+        </activity>
+        <activity android:name=".FavoritesActivity">
         </activity>
     </application>
 
