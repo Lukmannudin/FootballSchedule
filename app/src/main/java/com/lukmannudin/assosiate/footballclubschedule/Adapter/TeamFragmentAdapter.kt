@@ -4,19 +4,19 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.lukmannudin.assosiate.footballclubschedule.Model.Teams
-import com.lukmannudin.assosiate.footballclubschedule.TeamMatchView.NextMatchFragment
 import com.lukmannudin.assosiate.footballclubschedule.TeamsView.OverviewTeamFragment
+import com.lukmannudin.assosiate.footballclubschedule.TeamsView.PlayerListFragment
 
-class TeamFragmentAdapter(fm: FragmentManager, dataTeam: Teams) : FragmentPagerAdapter(fm) {
+class TeamFragmentAdapter(fm: FragmentManager, dataTeam: Teams?) : FragmentPagerAdapter(fm) {
 
     // sebuah list yang menampung objek Fragment
     private val pages: List<Fragment> = listOf(
         OverviewTeamFragment.newInstance(dataTeam),
-        NextMatchFragment()
+        PlayerListFragment.newInstance(dataTeam)
     )
 
     //menentukan fragment yang akan dibuka pada posisi tertentu
-    override fun getItem(position: Int): Fragment {
+    override fun getItem(position: Int): Fragment? {
         return pages[position]
     }
 

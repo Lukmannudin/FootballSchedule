@@ -43,6 +43,7 @@ class OverviewTeamFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
 
+
     }
 
     override fun onCreateView(
@@ -92,20 +93,12 @@ class OverviewTeamFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment OverviewTeamFragment.
-         */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(dataTeam: Teams) =
+        fun newInstance(dataTeam: Teams?) =
             OverviewTeamFragment().apply {
                 arguments = Bundle().apply {
-                    putString(TeamUtils.TEAM_OVERVIEW, dataTeam.teamDescription)
+                    putString(TeamUtils.TEAM_OVERVIEW, dataTeam?.teamDescription)
                 }
             }
     }

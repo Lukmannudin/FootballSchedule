@@ -33,6 +33,11 @@
                 android:name=".TeamDetailActivity"
                 android:parentActivityName=".HomeActivity"/>
         <activity android:name=".TeamPlayerActivity"/>
+        <activity
+                android:name=".PlayerDetailActivity"
+            android:parentActivityName=".HomeActivity"
+        >
+        </activity>
     </application>
 
 </manifest>

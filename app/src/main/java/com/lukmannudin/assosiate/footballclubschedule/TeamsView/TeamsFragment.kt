@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
+import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -26,11 +28,6 @@ import com.lukmannudin.assosiate.footballclubschedule.visible
 import kotlinx.android.synthetic.main.team_list.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.onRefresh
-import android.support.v4.view.MenuItemCompat.getActionView
-import android.support.v7.widget.SearchView
-import android.util.Log
-import com.lukmannudin.assosiate.footballclubschedule.R.id.*
-import org.jetbrains.anko.appcompat.v7.coroutines.onQueryTextListener
 
 
 class TeamsFragment : Fragment(), TeamsContract {
@@ -43,7 +40,7 @@ class TeamsFragment : Fragment(), TeamsContract {
     private lateinit var listTeam: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var swipeRefresh: SwipeRefreshLayout
-    private lateinit var leagueName: String
+    private var leagueName: String = "English Premier League"
 
 //    override fun createView(ui: AnkoContext<Context>): View = with(ui){
 //        linearLayout {
@@ -96,7 +93,6 @@ class TeamsFragment : Fragment(), TeamsContract {
         // Inflate the layout for this fragment
         setHasOptionsMenu(true);
 
-
         val view = inflater.inflate(com.lukmannudin.assosiate.footballclubschedule.R.layout.team_list, container, false)
 
 
@@ -108,7 +104,7 @@ class TeamsFragment : Fragment(), TeamsContract {
         val spinnerItems = resources.getStringArray(league)
         val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.simple_spinner_dropdown_item, spinnerItems)
         team_spinner.adapter = spinnerAdapter
-
+        team_spinner.visibility = View.VISIBLE
         adapter = TeamsAdapter(teams) {
             context?.startActivity<TeamDetailActivity>(
                 TeamUtils.TEAM_INTENT to it
@@ -130,9 +126,7 @@ class TeamsFragment : Fragment(), TeamsContract {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-        team_swipeRefresh.onRefresh {
-            presenter.getTeamList(leagueName)
-        }
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -149,7 +143,8 @@ class TeamsFragment : Fragment(), TeamsContract {
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater?.inflate(com.lukmannudin.assosiate.footballclubschedule.R.menu.menu_main, menu)
-        val searchView = menu?.findItem(com.lukmannudin.assosiate.footballclubschedule.R.id.action_search)?.actionView as SearchView
+        val searchView =
+            menu?.findItem(com.lukmannudin.assosiate.footballclubschedule.R.id.action_search)?.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
 //                presenter.getSearchTeamList(query)
@@ -158,17 +153,17 @@ class TeamsFragment : Fragment(), TeamsContract {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                team_spinner.visibility = View.GONE
+//                team_spinner.visibility = View.GONE
 //                presenter.getSearchTeamList(newText)
                 return true
             }
         })
 
-        searchView.setOnCloseListener(object :SearchView.OnCloseListener{
+        searchView.setOnCloseListener(object : SearchView.OnCloseListener {
             override fun onClose(): Boolean {
                 team_spinner.visibility = View.VISIBLE
 //                presenter.getTeamList(leagueName)
-                if (searchView.isIconified){
+                if (searchView.isIconified) {
                     presenter.getTeamList(leagueName)
                 }
                 return true
@@ -176,10 +171,15 @@ class TeamsFragment : Fragment(), TeamsContract {
         })
 
 
-
-
     }
 
+    override fun onResume() {
+        super.onResume()
+        team_spinner.visibility = View.VISIBLE
+        team_swipeRefresh.onRefresh {
+            presenter.getTeamList(leagueName)
+        }
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -210,7 +210,7 @@ class TeamsFragment : Fragment(), TeamsContract {
         teams.clear()
         teams.addAll(data)
         adapter.notifyDataSetChanged()
-        Log.i("league:",data[0].idLeague)
+        Log.i("league:", data[0].idLeague)
     }
 
 }

@@ -21,9 +21,11 @@ import com.lukmannudin.assosiate.footballclubschedule.TeamsView.OverviewTeamFrag
 import com.lukmannudin.assosiate.footballclubschedule.TeamsView.TeamsFragment
 import com.lukmannudin.assosiate.footballclubschedule.navigation_view.NavigationMain
 import com.lukmannudin.assosiate.footballclubschedule.navigation_view.NavigationTeam
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.team_main.*
 import kotlinx.android.synthetic.main.team_main.view.*
 import kotlinx.android.synthetic.main.team_overview.*
+import org.jetbrains.anko.internals.AnkoInternals.initiateView
 
 class TeamDetailActivity : AppCompatActivity(), TeamDetailContract {
 
@@ -45,6 +47,7 @@ class TeamDetailActivity : AppCompatActivity(), TeamDetailContract {
 
     private var menuItem: Menu? = null
     private var isFavorite: Boolean = false
+    private var intentData: Teams? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,122 +57,20 @@ class TeamDetailActivity : AppCompatActivity(), TeamDetailContract {
 //        id = intent.getStringExtra("id")
         supportActionBar?.title = "TeamUtils Detail"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        val intentData = intent.getParcelableExtra<Teams>(TeamUtils.TEAM_INTENT)
+        intentData = intent.getParcelableExtra(TeamUtils.TEAM_INTENT)
 
         vpTeam.adapter = TeamFragmentAdapter(supportFragmentManager!!, intentData)
         tlTeam.setupWithViewPager(vpTeam)
 
-//        val kotlinFragment = NavigationTeam.newInstance(intentData)
-//        if(savedInstanceState == null){
-//            supportFragmentManager
-//                .beginTransaction()
-//                .replace(R.id.frameLayout, kotlinFragment, kotlinFragment::class.java.simpleName)
-//                .commit()
-//        }
-
-//        vpTeam.adapter = TeamFragmentAdapter(supportFragmentManager!!)
-//        tlTeam.setupWithViewPager(vpTeam)
-//        val mFragment = OverviewTeamFragment()
-//        val mArgs = Bundle()
-//        mArgs.putInt("Key",1)
-//        mFragment.arguments = mArgs
-
-
-//        val framg = OverviewTeamFragment()
-//        var bundle:Bundle? =null
-//                bundle?.putString("hai","hancur")
-//        framg.arguments = bundle
-//
-//        val arguments = Bundle()
-//        arguments.putInt("VALUE1",1)
-//        val fragm = NavigationTeam()
-//        fragm.arguments = bundle
-//        Log.i("INI","YES")
-//        linearLayout {
-//            lparams(width = matchParent, height = wrapContent)
-//            orientation = LinearLayout.VERTICAL
-//            backgroundColor = Color.WHITE
-//
-//            swipeRefresh = swipeRefreshLayout {
-//                setColorSchemeResources(colorAccent,
-//                    android.R.color.holo_green_light,
-//                    android.R.color.holo_orange_light,
-//                    android.R.color.holo_red_light)
-//
-////                scrollView {
-////                    isVerticalScrollBarEnabled = false
-////                    relativeLayout {
-////                        lparams(width = matchParent, height = wrapContent)
-////
-////                        linearLayout{
-////                            lparams(width = matchParent, height = wrapContent)
-////                            padding = dip(10)
-////                            orientation = LinearLayout.VERTICAL
-////                            gravity = Gravity.CENTER_HORIZONTAL
-////
-////                            teamBadge =  imageView {}.lparams(height = dip(75))
-////
-////                            teamName = textView{
-////                                this.gravity = Gravity.CENTER
-////                                textSize = 20f
-////                                textColor = ContextCompat.getColor(context, colorAccent)
-////                            }.lparams{
-////                                topMargin = dip(5)
-////                            }
-////
-////                            teamFormedYear = textView{
-////                                this.gravity = Gravity.CENTER
-////                            }
-////
-////                            teamStadium = textView{
-////                                this.gravity = Gravity.CENTER
-////                                textColor = ContextCompat.getColor(context, colorPrimary)
-////                            }
-////
-////                            tabLayout = tabLayout {
-////                                R.id.teams_tab
-////                                setSelectedTabIndicatorColor(Color.WHITE)
-////                            }.lparams(width = matchParent) {
-////                                gravity = Gravity.BOTTOM
-////                            }
-////
-////                            teamDescription = textView().lparams{
-////                                topMargin = dip(20)
-////                            }
-////                        }
-////                        progressBar = progressBar {
-////                        }.lparams {
-////                            centerHorizontally()
-////                        }
-////                    }
-////                }
-//            }
-//        }
-
-//        favoriteState()
-//        val request = ApiRepository()
-//        val gson = Gson()
-//        presenterMatch = TeamDetailPresenter(this, request, gson)
-//        presenterMatch.getTeamDetail(id)
-//
-//        vpSchedule.setupWithViewPager(vpTeam)
-//        vpSchedule.adapter = TeamFragmentAdapter(fragmentManager!!)
-//        tabLayout.adapter = FragmentAdapter(childFragmentManager!!)
-//        tlSchedule.setupWithViewPager(vpSchedule)
-//        swipeRefresh.onRefresh {
-//            presenterMatch.getTeamDetail(id)
-//        }
+        initiateView()
     }
 
-//    private fun favoriteState(){
-//        database.use {
-//            val result = select(Favorite.TABLE_FAVORITE)
-//                .whereArgs("(TEAM_ID = {id})",
-//                    "id" to id)
-//            val favorite = result.parseList(classParser<Favorite>())
-//            if (!favorite.isEmpty()) isFavorite = true
-//        }
-//    }
+    fun initiateView(){
+        Picasso.get().load(intentData?.teamBadge).into(imgTeamBadge)
+        tvStrTeam.text = intentData?.teamName
+        tvFormedYear.text = intentData?.teamFormedYear
+        tvStadium.text = intentData?.teamStadium
+    }
 
     override fun showLoading() {
         progressBar.visible()
