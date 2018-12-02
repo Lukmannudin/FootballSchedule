@@ -14,11 +14,11 @@ class PlayerAdapter(private val list:ArrayList<Players>) : RecyclerView.Adapter<
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.list_player,parent,false))
     }
 
-    override fun getItemCount(): Int = list?.size
+    override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
 
-        holder.view.lbList.text = list?.get(position)?.name
+        holder.view.lbList.text = list.get(position).name
 
     }
 

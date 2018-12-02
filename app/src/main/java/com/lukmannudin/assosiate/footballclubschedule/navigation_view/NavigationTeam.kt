@@ -2,20 +2,14 @@ package com.lukmannudin.assosiate.footballclubschedule.navigation_view
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.lukmannudin.assosiate.footballclubschedule.Adapter.TeamFragmentAdapter
-import com.lukmannudin.assosiate.footballclubschedule.FragmentAdapter
 import com.lukmannudin.assosiate.footballclubschedule.Model.Teams
 import com.lukmannudin.assosiate.footballclubschedule.R
 import com.lukmannudin.assosiate.footballclubschedule.TeamMatchView.FavoriteTeamsFragment
 import com.lukmannudin.assosiate.footballclubschedule.TeamUtils
-import kotlinx.android.synthetic.main.match_main_view.*
-import kotlinx.android.synthetic.main.team_main.*
-import kotlinx.android.synthetic.main.team_main.view.*
 
 
 class NavigationTeam : Fragment() {
@@ -29,7 +23,6 @@ class NavigationTeam : Fragment() {
 
             val args = Bundle()
             args.putString(TeamUtils.TEAM_OVERVIEW, dataTeam.teamDescription)
-//            args.putInt("value", value)
             val fragment = NavigationTeam()
             fragment.arguments = args
             return fragment
@@ -40,8 +33,6 @@ class NavigationTeam : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
         }
-        val data = arguments?.getString(TeamUtils.TEAM_OVERVIEW)
-        Log.i("TEST",data)
     }
 
     override fun onCreateView(

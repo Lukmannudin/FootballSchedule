@@ -26,14 +26,11 @@ import com.lukmannudin.assosiate.footballclubschedule.visible
 import kotlinx.android.synthetic.main.team_list.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.onRefresh
-import com.lukmannudin.assosiate.footballclubschedule.R.id.main_container
-import com.lukmannudin.assosiate.footballclubschedule.R.id.action_search
 import android.support.v4.view.MenuItemCompat.getActionView
 import android.support.v7.widget.SearchView
 import android.util.Log
-import com.lukmannudin.assosiate.footballclubschedule.R.id.main_container
-
-
+import com.lukmannudin.assosiate.footballclubschedule.R.id.*
+import org.jetbrains.anko.appcompat.v7.coroutines.onQueryTextListener
 
 
 class TeamsFragment : Fragment(), TeamsContract {
@@ -155,14 +152,14 @@ class TeamsFragment : Fragment(), TeamsContract {
         val searchView = menu?.findItem(com.lukmannudin.assosiate.footballclubschedule.R.id.action_search)?.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                presenter.getSearchTeamList(query)
+//                presenter.getSearchTeamList(query)
                 team_spinner.visibility = View.GONE
                 return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
                 team_spinner.visibility = View.GONE
-                presenter.getSearchTeamList(newText)
+//                presenter.getSearchTeamList(newText)
                 return true
             }
         })
@@ -170,10 +167,17 @@ class TeamsFragment : Fragment(), TeamsContract {
         searchView.setOnCloseListener(object :SearchView.OnCloseListener{
             override fun onClose(): Boolean {
                 team_spinner.visibility = View.VISIBLE
-                presenter.getTeamList(leagueName)
+//                presenter.getTeamList(leagueName)
+                if (searchView.isIconified){
+                    presenter.getTeamList(leagueName)
+                }
                 return true
             }
         })
+
+
+
+
     }
 
     /**

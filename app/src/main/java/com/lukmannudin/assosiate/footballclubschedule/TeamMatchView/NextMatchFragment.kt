@@ -39,6 +39,8 @@ class NextMatchFragment : Fragment(), ScheduleContract {
     private lateinit var leagueName: String
     private lateinit var leagueID: String
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
