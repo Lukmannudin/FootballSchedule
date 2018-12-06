@@ -26,6 +26,7 @@ import org.jetbrains.anko.db.select
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
+import java.nio.file.Files.delete
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -68,37 +69,31 @@ class FavoritesFavorite : Fragment(), AnkoComponent<Context> {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        adapter = FavoritesTeamAdapter(favorites,
-            { favoritesTeam: FavoriteTeam -> partItemClicked(favoritesTeam) },
-            { favoritesTeam: FavoriteTeam -> removeTeam(favoritesTeam) }
-        )
+        adapter = FavoritesTeamAdapter(favorites) { favoritesTeam: FavoriteTeam -> partItemClicked(favoritesTeam) }
         listTeam.adapter = adapter
         swipeRefresh.onRefresh {
             showFavorite()
         }
     }
 
-    private fun removeTeam(favoriteTeam: FavoriteTeam) {
-        removeFromFavorite(favoriteTeam.teamId)
-        showFavorite()
-    }
+
 
     private fun partItemClicked(favoriteTeam: FavoriteTeam) {
+
         showFavorite()
     }
 
-    private fun removeFromFavorite(teamId: String) {
+    private fun removeFromFavorite(teamId:String){
         try {
             context?.database?.use {
-                delete(
-                    Favorite.TABLE_TEAM_FAVORITE,
+                delete(Favorite.TABLE_TEAM_FAVORITE,
                     "(TEAM_ID = {teamId})",
                     "teamId" to teamId
                 )
             }
-            Toast.makeText(context, "Removed from favorite", Toast.LENGTH_SHORT).show()
-        } catch (e: SQLiteConstraintException) {
-            Toast.makeText(context, e.localizedMessage, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context,"Removed from favorite",Toast.LENGTH_SHORT).show()
+        } catch (e: SQLiteConstraintException){
+            Toast.makeText(context,e.localizedMessage,Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -113,8 +113,7 @@ class FavoritesMatchDetailActivity : AppCompatActivity(), TeamMatchDetailContrac
             }
             R.id.add_to_favorite -> {
                 removeFromFavorite()
-                Toast.makeText(this,"This Favorite removed",Toast.LENGTH_SHORT).show()
-                supportFragmentManager.popBackStack()
+                    supportFragmentManager.popBackStack()
                 true
             }
 
@@ -143,7 +142,7 @@ class FavoritesMatchDetailActivity : AppCompatActivity(), TeamMatchDetailContrac
     }
 
     private fun setFavorite() {
-            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_added_to_favorites)
+        menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_added_to_favorites)
 
     }
 

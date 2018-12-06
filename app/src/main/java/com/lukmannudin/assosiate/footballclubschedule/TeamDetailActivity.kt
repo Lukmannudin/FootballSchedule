@@ -32,19 +32,6 @@ class TeamDetailActivity : AppCompatActivity(), TeamDetailContract {
 
 
     private lateinit var progressBar: ProgressBar
-    private lateinit var swipeRefresh: SwipeRefreshLayout
-
-    private lateinit var teamBadge: ImageView
-    private lateinit var teamName: TextView
-    private lateinit var teamFormedYear: TextView
-    private lateinit var teamStadium: TextView
-    private lateinit var teamDescription: TextView
-    private lateinit var tabLayout: TabLayout
-
-
-    private lateinit var presenterMatch: TeamDetailPresenter
-    private lateinit var teams: Teams
-    private lateinit var id: String
     private var teamId: String? = null
 
     private var menuItem: Menu? = null
@@ -63,9 +50,7 @@ class TeamDetailActivity : AppCompatActivity(), TeamDetailContract {
 
         vpTeam.adapter = TeamFragmentAdapter(supportFragmentManager!!, intentData)
         tlTeam.setupWithViewPager(vpTeam)
-
         initiateView()
-
         favoriteState()
         setFavorite()
     }
@@ -94,7 +79,6 @@ class TeamDetailActivity : AppCompatActivity(), TeamDetailContract {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(detail_menu, menu)
-
         menuItem = menu
         setFavorite()
         return true

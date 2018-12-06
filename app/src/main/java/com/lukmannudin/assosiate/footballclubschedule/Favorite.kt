@@ -37,6 +37,10 @@ data class Favorite(
         const val TEAM_HOME_SCORE: String = "TEAM_HOME_SCORE"
         const val TEAM_AWAY_SCORE: String = "TEAM_AWAY_SCORE"
 
+        const val TEAM_STADIUM: String = "TEAM_STADIUM"
+        const val TEAM_DESCRIPTION: String = "TEAM_DESCRIPTION"
+        const val TEAM_MANAGER: String = "TEAM_MANAGER"
+
         const val TABLE_TEAM_FAVORITE: String = "TABLE_TEAM_FAVORITE"
         const val TEAM_ID = "TEAM_ID"
         const val TEAM_NAME = "TEAM_NAME"
