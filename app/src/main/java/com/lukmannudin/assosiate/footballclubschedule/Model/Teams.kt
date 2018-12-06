@@ -23,5 +23,11 @@ data class Teams(
     var teamStadium: String? = null,
 
     @SerializedName("strDescriptionEN")
-    var teamDescription: String? = null
-): Parcelable
+    var teamDescription: String? = null,
+
+    @SerializedName("idLeague")
+    var idLeague: String? = null,
+
+    @SerializedName("strManager")
+    var strManager: String? = null
+) : Parcelable

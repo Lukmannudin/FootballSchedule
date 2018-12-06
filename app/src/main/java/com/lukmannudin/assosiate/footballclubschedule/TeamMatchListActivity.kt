@@ -41,7 +41,6 @@ class TeamMatchListActivity : AppCompatActivity(), TeamMatchDetailContract {
     private lateinit var teamMatchEventId: String
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_test)
@@ -79,12 +78,12 @@ class TeamMatchListActivity : AppCompatActivity(), TeamMatchDetailContract {
         data[0].getStrTeamBadge().let { Picasso.get().load(it).into(teamBadgeHome) }
         teamHomeName.text = data[0].getStrTeam()
         teamHomeGoals.text = IntentData.intHomeScore
-        teamHomeGoalDetail.text = IntentData.strHomeGoalDetails.toString().replace(";","\n")
-        teamHomeGoalkeeper.text = IntentData.strHomeLineupGoalkeeper.toString().replace(";","\n")
-        teamHomeDefense.text = IntentData.strHomeLineupDefense.toString().replace(";","\n")
-        teamHomeMidfield.text = IntentData.strHomeLineupMidfield.toString().replace(";","\n")
-        teamHomeForward.text = IntentData.strHomeLineupForward.toString().replace(";","\n")
-        teamHomeSubstitute.text = IntentData.strHomeLineupSubstitutes.toString().replace(";","\n")
+        teamHomeGoalDetail.text = IntentData.strHomeGoalDetails.toString().replace(";", "\n")
+        teamHomeGoalkeeper.text = IntentData.strHomeLineupGoalkeeper.toString().replace(";", "\n")
+        teamHomeDefense.text = IntentData.strHomeLineupDefense.toString().replace(";", "\n")
+        teamHomeMidfield.text = IntentData.strHomeLineupMidfield.toString().replace(";", "\n")
+        teamHomeForward.text = IntentData.strHomeLineupForward.toString().replace(";", "\n")
+        teamHomeSubstitute.text = IntentData.strHomeLineupSubstitutes.toString().replace(";", "\n")
     }
 
     override fun showAwayTeamDetailList(data: List<TeamDetail>) {
@@ -93,17 +92,17 @@ class TeamMatchListActivity : AppCompatActivity(), TeamMatchDetailContract {
         data[0].getStrTeamBadge().let { Picasso.get().load(it).into(teamBadgeAway) }
         teamAwayName.text = data[0].getStrTeam()
         teamAwayGoals.text = IntentData.intAwayScore
-        teamAwayGoalDetail.text = IntentData.strAwayGoalDetails.toString().replace(";","\n")
-        teamAwayGoalkeeper.text = IntentData.strAwayLineupGoalkeeper.toString().replace(";","\n")
-        teamAwayDefense.text = IntentData.strAwayLineupDefense.toString().replace(";","\n")
-        teamAwayMidfield.text = IntentData.strAwayLineupMidfield.toString().replace(";","\n")
-        teamAwayForward.text = IntentData.strAwayLineupForward.toString().replace(";","\n")
-        teamAwaySubstitute.text = IntentData.strAwayLineupSubstitutes.toString().replace(";","\n")
+        teamAwayGoalDetail.text = IntentData.strAwayGoalDetails.toString().replace(";", "\n")
+        teamAwayGoalkeeper.text = IntentData.strAwayLineupGoalkeeper.toString().replace(";", "\n")
+        teamAwayDefense.text = IntentData.strAwayLineupDefense.toString().replace(";", "\n")
+        teamAwayMidfield.text = IntentData.strAwayLineupMidfield.toString().replace(";", "\n")
+        teamAwayForward.text = IntentData.strAwayLineupForward.toString().replace(";", "\n")
+        teamAwaySubstitute.text = IntentData.strAwayLineupSubstitutes.toString().replace(";", "\n")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 //        return super.onCreateOptionsMenu(menu)
-        menuInflater.inflate(detail_menu,menu)
+        menuInflater.inflate(detail_menu, menu)
         menuItem = menu
         setFavorite()
         return true
@@ -126,10 +125,11 @@ class TeamMatchListActivity : AppCompatActivity(), TeamMatchDetailContract {
         }
     }
 
-    private fun addToFavorite(){
+    private fun addToFavorite() {
         try {
             database.use {
-                insert(Favorite.TABLE_FAVORITE,
+                insert(
+                    Favorite.TABLE_FAVORITE,
                     Favorite.TEAM_MATCH_EVENT_ID to IntentData.idEvent,
                     Favorite.TEAM_MATCH_EVENT_DATE to IntentData.dateEvent,
                     Favorite.TEAM_HOME_ID to IntentData.idHomeTeam,
@@ -138,30 +138,32 @@ class TeamMatchListActivity : AppCompatActivity(), TeamMatchDetailContract {
                     Favorite.TEAM_HOME_NAME to IntentData.strHomeTeam,
                     Favorite.TEAM_AWAY_NAME to IntentData.strAwayTeam,
                     Favorite.TEAM_HOME_SCORE to IntentData.intHomeScore,
-                    Favorite.TEAM_AWAY_SCORE to IntentData.intAwayScore
+                    Favorite.TEAM_AWAY_SCORE to IntentData.intAwayScore,
+                    Favorite.STR_EVENT to IntentData.strEvent
                 )
             }
 //            snackbar("Added to favorite").show()
-            Toast.makeText(this,"Added to favorite",Toast.LENGTH_SHORT).show()
-        } catch (e: SQLiteConstraintException){
+            Toast.makeText(this, "Added to favorite", Toast.LENGTH_SHORT).show()
+        } catch (e: SQLiteConstraintException) {
 //            snackbar(e.localizedMessage).show()
-            Toast.makeText(this,e.localizedMessage,Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, e.localizedMessage, Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun removeFromFavorite(){
+    private fun removeFromFavorite() {
         try {
             database.use {
-                delete(Favorite.TABLE_FAVORITE,
+                delete(
+                    Favorite.TABLE_FAVORITE,
                     "(TEAM_MATCH_EVENT_ID = {eventId})",
                     "eventId" to teamMatchEventId
                 )
             }
 //            swipeRefresh.snackbar("Removed to favorite").show()
-            Toast.makeText(this,"Removed from favorite",Toast.LENGTH_SHORT).show()
-        } catch (e: SQLiteConstraintException){
+            Toast.makeText(this, "Removed from favorite", Toast.LENGTH_SHORT).show()
+        } catch (e: SQLiteConstraintException) {
 //            swipeRefresh.snackbar(e.localizedMessage).show()
-            Toast.makeText(this,e.localizedMessage,Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, e.localizedMessage, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -171,14 +173,20 @@ class TeamMatchListActivity : AppCompatActivity(), TeamMatchDetailContract {
         else
             menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, ic_add_to_favorites)
     }
-    private fun favoriteState(){
+
+    private fun favoriteState() {
         database.use {
             val result = select(Favorite.TABLE_FAVORITE)
-                .whereArgs("(TEAM_MATCH_EVENT_ID = {eventId})",
-                    "eventId" to teamMatchEventId)
-            println("INI EVENT"+teamMatchEventId)
+                .whereArgs(
+                    "(TEAM_MATCH_EVENT_ID = {eventId})",
+                    "eventId" to teamMatchEventId
+                )
+
             val favorite = result.parseList(classParser<Favorite>())
-            if (!favorite.isEmpty()) isFavorite = true
+
+            if (!favorite.isEmpty()) {
+                isFavorite = true
+            }
         }
     }
 }

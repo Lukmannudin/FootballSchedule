@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class Schedule(
+class   Schedule(
     @SerializedName("idEvent")
     @Expose
     var idEvent: String? = null,

@@ -5,7 +5,7 @@ import com.lukmannudin.assosiate.footballclubschedule.BuildConfig
 
 object APINextScheduleTeam {
 
-    fun getSchedule(league: String?): String {
+    fun getSchedule(leagueID: String?): String {
     //        println(league)
         return Uri.parse(BuildConfig.BASE_URL).buildUpon()
             .appendPath("api")
@@ -13,7 +13,7 @@ object APINextScheduleTeam {
             .appendPath("json")
             .appendPath(BuildConfig.TSDB_API_KEY)
             .appendPath("eventsnextleague.php")
-            .appendQueryParameter("id", "4328")
+            .appendQueryParameter("id", leagueID)
             .build()
             .toString()
     }

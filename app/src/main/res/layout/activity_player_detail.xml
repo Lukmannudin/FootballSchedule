@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".PlayerDetailActivity">
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+        >
+
+            <ImageView
+                    android:id="@+id/imgPlayer"
+                    android:src="@drawable/player"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:contentDescription="Image Player"/>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+            >
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                    <TextView
+                            android:id="@+id/titleWeightPlayer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Weight (Kg)"
+                            android:gravity="center"
+                            android:textSize="18sp"
+                    />
+                    <TextView
+                            android:id="@+id/WeightPlayer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="65.76"
+                            android:textSize="40sp"
+                            android:gravity="center"
+                    />
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                    <TextView
+                            android:id="@+id/titleHeightPlayer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Weight (Kg)"
+                            android:gravity="center"
+                            android:textSize="18sp"
+                    />
+                    <TextView
+                            android:id="@+id/HeightPlayer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="65.76"
+                            android:textSize="40sp"
+                            android:gravity="center"
+                    />
+                </LinearLayout>
+
+            </LinearLayout>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Forward"
+                    android:textSize="20sp"
+                    android:gravity="center"
+            />
+            <TextView
+                    android:id="@+id/playerDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+            />
+        </LinearLayout>
+
+
+
+    </ScrollView>
+</LinearLayout>

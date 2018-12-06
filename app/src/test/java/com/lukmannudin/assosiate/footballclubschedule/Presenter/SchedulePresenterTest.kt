@@ -52,7 +52,7 @@ class SchedulePresenterTest {
                 ScheduleResponse::class.java
             )).thenReturn(response)
 
-            presenter.getScheduleList(league)
+            presenter.getScheduleList(league, "eventspastleague")
 
             Mockito.verify(view).showLoading()
             Mockito.verify(view).showTeamList(schedule)
