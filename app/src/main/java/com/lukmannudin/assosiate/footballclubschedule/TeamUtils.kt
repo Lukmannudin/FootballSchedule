@@ -12,5 +12,6 @@ class TeamUtils {
         const val TEAM_AWAY_NAME = "TEAM_AWAY_NAME"
         const val TEAM_OVERVIEW = "TEAM_OVERVIEW"
         const val TEAM_NAME = "TEAM_NAME"
+        const val STR_EVENT = "STR_EVENT"
     }
 }

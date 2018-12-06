@@ -8,7 +8,6 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -136,19 +135,21 @@ class TeamDetailActivity : AppCompatActivity(), TeamDetailContract {
         }
     }
 
-    private fun removeFromFavorite(){
+    private fun removeFromFavorite() {
         try {
             database.use {
-                delete(Favorite.TABLE_TEAM_FAVORITE,
+                delete(
+                    Favorite.TABLE_TEAM_FAVORITE,
                     "(TEAM_ID = {teamId})",
                     "teamId" to teamId.toString()
                 )
             }
 //            swipeRefresh.snackbar("Removed to favorite").show()
-            Toast.makeText(this,"Removed from favorite",Toast.LENGTH_SHORT).show()
-        } catch (e: SQLiteConstraintException){
+            Toast.makeText(this, "Removed from favorite", Toast.LENGTH_SHORT).show()
+
+        } catch (e: SQLiteConstraintException) {
 //            swipeRefresh.snackbar(e.localizedMessage).show()
-            Toast.makeText(this,e.localizedMessage,Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, e.localizedMessage, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -159,15 +160,18 @@ class TeamDetailActivity : AppCompatActivity(), TeamDetailContract {
             menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_add_to_favorites)
     }
 
-    private fun favoriteState(){
+    private fun favoriteState() {
         database.use {
             val result = select(Favorite.TABLE_TEAM_FAVORITE)
-                .whereArgs("(TEAM_ID = {teamId})",
-                    "teamId" to intentData?.teamId+"")
+                .whereArgs(
+                    "(TEAM_ID = {teamId})",
+                    "teamId" to intentData?.teamId + ""
+                )
             val favorite = result.parseList(classParser<FavoriteTeam>())
             if (!favorite.isEmpty()) {
                 isFavorite = true
-                menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(applicationContext,R.drawable.ic_added_to_favorites)
+                menuItem?.getItem(0)?.icon =
+                        ContextCompat.getDrawable(applicationContext, R.drawable.ic_added_to_favorites)
             }
         }
 

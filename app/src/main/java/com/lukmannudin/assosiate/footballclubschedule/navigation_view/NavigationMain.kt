@@ -15,7 +15,6 @@ import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.SchedulePresenter
 import com.lukmannudin.assosiate.footballclubschedule.R
 import com.lukmannudin.assosiate.footballclubschedule.TeamMatchListActivity
-import kotlinx.android.synthetic.main.match_fragment.view.*
 import kotlinx.android.synthetic.main.match_main_view.*
 import kotlinx.android.synthetic.main.match_main_view.view.*
 import kotlinx.android.synthetic.main.team_list.*
@@ -27,6 +26,7 @@ class NavigationMain : Fragment(), ScheduleContract {
     private lateinit var adapter: ScheduleAdapter
     private var schedules: MutableList<Schedule> = mutableListOf()
     private lateinit var presenter: SchedulePresenter
+    private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +45,7 @@ class NavigationMain : Fragment(), ScheduleContract {
         setHasOptionsMenu(true)
         vpSchedule.adapter = FragmentAdapter(childFragmentManager)
         tlSchedule.setupWithViewPager(vpSchedule)
+
         view.rvSearchMatch.layoutManager = LinearLayoutManager(view.context)
     }
 
@@ -52,19 +53,35 @@ class NavigationMain : Fragment(), ScheduleContract {
         super.onActivityCreated(savedInstanceState)
         val request = ApiRepository()
         val gson = Gson()
+
         presenter = SchedulePresenter(this, request, gson)
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        searchView.isIconified = true
+    }
+
     private fun partItemClicked(Schedules: Schedule) {
         startActivity<TeamMatchListActivity>(
             "parcel" to Schedules
         )
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        searchView.clearFocus()
+        searchView.setQuery("", false);
+        searchView.isIconified = true
+    }
+
+
+
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_main,menu)
-        val searchView = menu?.findItem(R.id.action_search)?.actionView as SearchView
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+        inflater?.inflate(R.menu.menu_main, menu)
+        searchView = menu?.findItem(R.id.action_search)?.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 vpSchedule.visibility = View.GONE
                 tlSchedule.visibility = View.GONE
@@ -73,18 +90,25 @@ class NavigationMain : Fragment(), ScheduleContract {
                 rvSearchMatch.adapter = adapter
                 return true
             }
+
             override fun onQueryTextChange(p0: String?): Boolean {
+                if (!searchView.isIconified){
+                    vpSchedule.visibility = View.GONE
+                    tlSchedule.visibility = View.GONE
+                }
+                presenter.getScheduleSearchList(p0)
+                adapter = ScheduleAdapter(schedules, { schedules: Schedule -> partItemClicked(schedules) })
+                rvSearchMatch.adapter = adapter
                 return true
             }
         })
 
-        searchView.setOnCloseListener(object :SearchView.OnCloseListener{
-            override fun onClose(): Boolean {
-                vpSchedule.visibility = View.VISIBLE
-                tlSchedule.visibility = View.VISIBLE
-                return true
-            }
-        })
+        searchView.setOnCloseListener {
+            searchView.onActionViewCollapsed()
+            vpSchedule.visibility = View.VISIBLE
+            tlSchedule.visibility = View.VISIBLE
+            true
+        }
     }
 
 
@@ -96,7 +120,6 @@ class NavigationMain : Fragment(), ScheduleContract {
 
     override fun showTeamList(data: List<Schedule>) {
         schedules.clear()
-        Log.i("data", data[0].strHomeTeam)
         schedules.addAll(data)
         adapter.notifyDataSetChanged()
     }

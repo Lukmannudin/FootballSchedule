@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,8 +77,9 @@ class FavoriteTeamsFragment : Fragment(), AnkoComponent<Context> {
     }
 
     private fun partItemClicked(Favorites: Favorite) {
-        startActivity(
+                startActivity(
             intentFor<FavoritesMatchDetailActivity>(
+                "teamEvent" to Favorites.strEvent,
                 "teamMatchEventId" to Favorites.teamMatchEventId,
                 "teamHomeId" to Favorites.teamHomeId,
                 "teamAwayId" to Favorites.teamAwayId,

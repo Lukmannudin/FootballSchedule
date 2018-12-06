@@ -16,9 +16,12 @@ import com.lukmannudin.assosiate.footballclubschedule.Model.Schedule
 import com.lukmannudin.assosiate.footballclubschedule.Model.TeamDetail
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.SchedulePresenter
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.TeamMatchDetailPresenter
+import com.lukmannudin.assosiate.footballclubschedule.navigation_view.NavigationFavorites
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.team_detail_layout.*
 import org.jetbrains.anko.db.delete
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.startActivity
 
 
 class FavoritesMatchDetailActivity : AppCompatActivity(), TeamMatchDetailContract, ScheduleContract {
@@ -27,6 +30,7 @@ class FavoritesMatchDetailActivity : AppCompatActivity(), TeamMatchDetailContrac
     lateinit var presenterMatch: TeamMatchDetailPresenter
     lateinit var favoriteDetailPresenter: SchedulePresenter
     lateinit var matchId: String
+    lateinit var strEvent: String
     private var menuItem: Menu? = null
     private var isFavorite: Boolean = false
 
@@ -40,6 +44,8 @@ class FavoritesMatchDetailActivity : AppCompatActivity(), TeamMatchDetailContrac
 
 
         matchId = intent.getStringExtra("teamMatchEventId")
+
+        strEvent = intent.getStringExtra("teamEvent")
         val homeTeamId = intent.getStringExtra("teamHomeId")
         val awayTeamId = intent.getStringExtra("teamAwayId")
         val dateEvent = intent.getStringExtra("eventMatchDate")
@@ -128,7 +134,8 @@ class FavoritesMatchDetailActivity : AppCompatActivity(), TeamMatchDetailContrac
                 )
             }
 //            swipeRefresh.snackbar("Removed to favorite").show()
-            Toast.makeText(this,"Removed to favorite", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,strEvent+" removed from favorite", Toast.LENGTH_SHORT).show()
+            startActivity(intentFor<HomeActivity>("itemid" to "favorites"))
         } catch (e: SQLiteConstraintException){
 //            swipeRefresh.snackbar(e.localizedMessage).show()
             Toast.makeText(this,e.localizedMessage, Toast.LENGTH_SHORT).show()

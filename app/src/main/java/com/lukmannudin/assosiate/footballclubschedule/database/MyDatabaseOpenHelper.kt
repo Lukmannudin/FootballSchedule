@@ -31,7 +31,9 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Favorit
             Favorite.TEAM_HOME_NAME to TEXT,
             Favorite.TEAM_AWAY_NAME to TEXT,
             Favorite.TEAM_HOME_SCORE to TEXT,
-            Favorite.TEAM_AWAY_SCORE to TEXT
+            Favorite.TEAM_AWAY_SCORE to TEXT,
+            Favorite.STR_EVENT to TEXT
+
         )
 
         db.createTable(
