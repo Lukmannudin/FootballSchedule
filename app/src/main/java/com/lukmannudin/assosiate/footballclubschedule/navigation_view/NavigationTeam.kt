@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.lukmannudin.assosiate.footballclubschedule.Adapter.TeamFragmentAdapter
 import com.lukmannudin.assosiate.footballclubschedule.FragmentAdapter
 import com.lukmannudin.assosiate.footballclubschedule.Model.Teams
@@ -61,4 +59,9 @@ class NavigationTeam : Fragment() {
         super.onDetach()
         listener = null
     }
+
+//    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+////        super.onCreateOptionsMenu(menu, inflater)
+//        menuInflater
+//    }
 }

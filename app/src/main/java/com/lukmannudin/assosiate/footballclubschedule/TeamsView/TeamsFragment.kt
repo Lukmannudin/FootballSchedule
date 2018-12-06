@@ -6,29 +6,33 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
-import com.lukmannudin.assosiate.footballclubschedule.R.color.colorAccent
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.*
+import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.ProgressBar
+import android.widget.Spinner
 import com.google.gson.Gson
 import com.lukmannudin.assosiate.footballclubschedule.APIRequest.ApiRepository
 import com.lukmannudin.assosiate.footballclubschedule.Adapter.TeamsAdapter
 import com.lukmannudin.assosiate.footballclubschedule.Contract.TeamsContract
 import com.lukmannudin.assosiate.footballclubschedule.Model.Teams
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.TeamsPresenter
-import com.lukmannudin.assosiate.footballclubschedule.invisible
-import com.lukmannudin.assosiate.footballclubschedule.visible
-import org.jetbrains.anko.*
-import org.jetbrains.anko.recyclerview.v7.recyclerView
-import org.jetbrains.anko.support.v4.onRefresh
-import org.jetbrains.anko.support.v4.swipeRefreshLayout
 import com.lukmannudin.assosiate.footballclubschedule.R.array.league
+import com.lukmannudin.assosiate.footballclubschedule.R.id.action_search
 import com.lukmannudin.assosiate.footballclubschedule.TeamDetailActivity
 import com.lukmannudin.assosiate.footballclubschedule.TeamUtils
+import com.lukmannudin.assosiate.footballclubschedule.invisible
+import com.lukmannudin.assosiate.footballclubschedule.visible
+import com.miguelcatalan.materialsearchview.MaterialSearchView
 import kotlinx.android.synthetic.main.team_list.*
+import kotlinx.android.synthetic.main.team_list.view.*
+import org.jetbrains.anko.AnkoComponent
+import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.support.v4.onRefresh
+
 
 class TeamsFragment : Fragment(), AnkoComponent<Context>, TeamsContract {
     override fun createView(ui: AnkoContext<Context>): View {
@@ -43,6 +47,8 @@ class TeamsFragment : Fragment(), AnkoComponent<Context>, TeamsContract {
     private lateinit var progressBar: ProgressBar
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var leagueName: String
+    private var menuItem: Menu? = null
+
 
 //    override fun createView(ui: AnkoContext<Context>): View = with(ui){
 //        linearLayout {
@@ -103,8 +109,9 @@ class TeamsFragment : Fragment(), AnkoComponent<Context>, TeamsContract {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 //        return createView(AnkoContext.create(requireContext()))
-        val view =  inflater.inflate(com.lukmannudin.assosiate.footballclubschedule.R.layout.team_list, container, false)
+        setHasOptionsMenu(true)
 
+        val view = inflater.inflate(com.lukmannudin.assosiate.footballclubschedule.R.layout.team_list, container, false)
         return view
     }
 
@@ -114,8 +121,8 @@ class TeamsFragment : Fragment(), AnkoComponent<Context>, TeamsContract {
         val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.simple_spinner_dropdown_item, spinnerItems)
         sTeam.adapter = spinnerAdapter
 
-        adapter = TeamsAdapter(teams){
-           context?.startActivity<TeamDetailActivity>(
+        adapter = TeamsAdapter(teams) {
+            context?.startActivity<TeamDetailActivity>(
                 TeamUtils.TEAM_INTENT to it
             )
         }
@@ -137,7 +144,9 @@ class TeamsFragment : Fragment(), AnkoComponent<Context>, TeamsContract {
         srlTeam.onRefresh {
             presenter.getTeamList(leagueName)
         }
+
     }
+
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.onFragmentInteraction(uri)
@@ -172,5 +181,15 @@ class TeamsFragment : Fragment(), AnkoComponent<Context>, TeamsContract {
         // TODO: Update argument type and name
         fun onFragmentInteraction(uri: Uri)
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(com.lukmannudin.assosiate.footballclubschedule.R.menu.menu_team, menu)
+        menuItem = menu
+
+//        setFavorite()
+
+    }
+
 
 }

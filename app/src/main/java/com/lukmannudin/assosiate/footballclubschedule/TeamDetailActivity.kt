@@ -1,14 +1,11 @@
 package com.lukmannudin.assosiate.footballclubschedule
 
 import android.os.Bundle
-import android.support.design.widget.NavigationView
 import android.support.design.widget.TabLayout
-import android.support.v4.app.FragmentManager
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
-import android.text.TextUtils.replace
-import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -16,14 +13,9 @@ import com.lukmannudin.assosiate.footballclubschedule.Adapter.TeamFragmentAdapte
 import com.lukmannudin.assosiate.footballclubschedule.Contract.TeamDetailContract
 import com.lukmannudin.assosiate.footballclubschedule.Model.Teams
 import com.lukmannudin.assosiate.footballclubschedule.Presenter.TeamDetailPresenter
-import com.lukmannudin.assosiate.footballclubschedule.R.menu.detail_menu
-import com.lukmannudin.assosiate.footballclubschedule.TeamsView.OverviewTeamFragment
-import com.lukmannudin.assosiate.footballclubschedule.TeamsView.TeamsFragment
-import com.lukmannudin.assosiate.footballclubschedule.navigation_view.NavigationMain
-import com.lukmannudin.assosiate.footballclubschedule.navigation_view.NavigationTeam
+import com.lukmannudin.assosiate.footballclubschedule.R.id.*
+import kotlinx.android.synthetic.main.team_list.*
 import kotlinx.android.synthetic.main.team_main.*
-import kotlinx.android.synthetic.main.team_main.view.*
-import kotlinx.android.synthetic.main.team_overview.*
 
 class TeamDetailActivity : AppCompatActivity(), TeamDetailContract {
 
@@ -192,7 +184,7 @@ class TeamDetailActivity : AppCompatActivity(), TeamDetailContract {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(detail_menu, menu)
+        menuInflater.inflate(R.menu.menu_team, menu)
         menuItem = menu
 //        setFavorite()
         return true
@@ -249,5 +241,15 @@ class TeamDetailActivity : AppCompatActivity(), TeamDetailContract {
 //        else
 //            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, ic_add_to_favorites)
 //    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val id = item?.itemId
+        when (id){
+             action_search-> {
+                search_view2.openSearch()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
 }

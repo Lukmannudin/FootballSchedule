@@ -25,4 +25,20 @@
     <string name="nextMatch">Next Match</string>
     <string name="matches">Matches</string>
     <string name="todo">TODO</string>
+    <string-array name="suggestions">
+        <item>Maçã</item>
+        <item>Damasco</item>
+        <item>Abacate</item>
+        <item>Banana</item>
+        <item>Mirtilo</item>
+        <item>Amora preta</item>
+        <item>Cenoura</item>
+        <item>Cereja</item>
+        <item>Laranja</item>
+        <item>Batata</item>
+        <item>Pêssego</item>
+        <item>Maracujá</item>
+        <item>Pêra</item>
+        <item>Morango</item>
+    </string-array>
 </resources>

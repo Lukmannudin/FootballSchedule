@@ -1,5 +1,5 @@
 package com.lukmannudin.assosiate.footballclubschedule
 
 object MsvAuthority {
-    val CONTENT_AUTHORITY = "br.com.mauker.materialsearchview.searchhistorydatabase"
+    const val CONTENT_AUTHORITY: String = "br.com.mauker.materialsearchview.searchhistorydatabase"
 }
