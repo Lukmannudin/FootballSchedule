@@ -70,6 +70,7 @@ class FavoritesFavorite : Fragment(), AnkoComponent<Context> {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         adapter = FavoritesTeamAdapter(favorites) { favoritesTeam: FavoriteTeam -> partItemClicked(favoritesTeam) }
+
         listTeam.adapter = adapter
         swipeRefresh.onRefresh {
             showFavorite()
@@ -79,7 +80,7 @@ class FavoritesFavorite : Fragment(), AnkoComponent<Context> {
 
 
     private fun partItemClicked(favoriteTeam: FavoriteTeam) {
-
+        removeFromFavorite(favoriteTeam.teamId)
         showFavorite()
     }
 

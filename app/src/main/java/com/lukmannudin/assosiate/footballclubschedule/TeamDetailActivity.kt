@@ -108,7 +108,10 @@ class TeamDetailActivity : AppCompatActivity(), TeamDetailContract {
                     Favorite.TABLE_TEAM_FAVORITE,
                     Favorite.TEAM_ID to intentData?.teamId,
                     Favorite.TEAM_NAME to intentData?.teamName,
-                    Favorite.TEAM_BADGE to intentData?.teamBadge
+                    Favorite.TEAM_BADGE to intentData?.teamBadge,
+                    Favorite.TEAM_STADIUM to intentData?.teamStadium,
+                    Favorite.TEAM_DESCRIPTION to intentData?.teamDescription,
+                    Favorite.TEAM_MANAGER to intentData?.strManager
                 )
             }
 //            snackbar("Added to favorite").show()

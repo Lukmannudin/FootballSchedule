@@ -46,6 +46,6 @@ class FavoritesTeamsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         Picasso.get().load(favoriteTeam.teamBadge).into(teamImage)
         teamName.text = favoriteTeam.teamName
         btnDelet.setOnClickListener { listener(favoriteTeam) }
-        itemView.setOnClickListener { listener(favoriteTeam) }
+//        itemView.setOnClickListener { listener(favoriteTeam) }
     }
 }
